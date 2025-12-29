@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Braids by Rita </title>
-    
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
@@ -259,6 +248,7 @@
             <button id="featuredBtn" class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border hairline bg-black/30 group">
               <video id="featuredPreview" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
                 preload="metadata" muted playsinline loop
+                poster="assets/media/posters/Inside building S25.jpg"
                 data-src="assets/media/videos/Inside building S25.mp4"></video>
               <div class="absolute inset-0 grid place-items-center">
                 <div class="play-pill px-4 py-2 rounded-full flex items-center gap-2">
@@ -362,7 +352,9 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-          <div class="badge px-3 py-1 rounded-full text-sm text-champagne/75">Tip: drop videos into <span class="text-gold">assets/media/videos/</span></div>
+          <div class="badge px-3 py-1 rounded-full text-sm text-champagne/75">
+            Tip: drop videos into <span class="text-gold">assets/media/videos/</span> and photos into <span class="text-gold">assets/media/photos/</span>
+          </div>
           <button id="showAllBtn" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Show All</button>
         </div>
       </div>
@@ -383,7 +375,7 @@
       <div id="mediaGrid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 
       <div class="mt-10 text-sm text-champagne/60">
-        Want cleaner thumbnails? Add optional poster images in <span class="text-gold">assets/media/posters/</span> and set <code class="text-champagne/80">poster</code> in the media list.
+        Posters are generated in <span class="text-gold">assets/media/posters/</span> (same base name as the video). This makes the gallery load fast and still look premium.
       </div>
     </div>
   </section>
@@ -581,6 +573,7 @@
         </div>
         <div class="bg-black">
           <video id="modalVideo" class="w-full max-h-[75vh] object-contain" controls playsinline></video>
+          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Gallery photo preview" />
         </div>
         <div id="modalMeta" class="p-4 text-sm text-champagne/70"></div>
       </div>
@@ -591,9 +584,10 @@
     // -----------------------------
     // IMPORTANT SETUP (UPLOAD-AND-GO)
     // 1) Put logo at: assets/brand/logo.png
-    // 2) Put ALL videos at: assets/media/videos/
-    //    (You can keep these exact filenames; spaces are handled.)
-    // 3) Optional photos: assets/media/photos/ then add to MEDIA list (type:"image")
+    // 2) Put ALL videos at: assets/media/videos/  (keep filenames exactly)
+    // 3) Put photos at: assets/media/photos/
+    // 4) Posters are in: assets/media/posters/ (same base name as the video)
+    //    Example: "braids S12.mp4" -> "assets/media/posters/braids S12.jpg"
     // -----------------------------
 
     // NAV: Mobile menu
@@ -621,18 +615,32 @@
     const modal = document.getElementById('modal');
     const closeModal = document.getElementById('closeModal');
     const modalVideo = document.getElementById('modalVideo');
+    const modalImg = document.getElementById('modalImg');
     const modalTitle = document.getElementById('modalTitle');
     const modalMeta = document.getElementById('modalMeta');
 
-    function openModal({title, src, meta}) {
+    function openModal({title, type, src, meta}) {
       modalTitle.textContent = title || 'Preview';
       modalMeta.textContent = meta || '';
       modal.classList.remove('hidden');
+
+      // Reset both
       modalVideo.pause();
       modalVideo.removeAttribute('src');
       modalVideo.load();
-      modalVideo.src = src;
-      modalVideo.play().catch(()=>{});
+      modalImg.classList.add('hidden');
+      modalImg.removeAttribute('src');
+
+      if (type === 'image' || (src && src.toLowerCase().endsWith('.jpg'))) {
+        modalVideo.classList.add('hidden');
+        modalImg.classList.remove('hidden');
+        modalImg.src = src;
+      } else {
+        modalVideo.classList.remove('hidden');
+        modalVideo.src = src;
+        modalVideo.play().catch(()=>{});
+      }
+
       document.body.style.overflow = 'hidden';
     }
     function hideModal() {
@@ -640,6 +648,8 @@
       modalVideo.pause();
       modalVideo.removeAttribute('src');
       modalVideo.load();
+      modalImg.classList.add('hidden');
+      modalImg.removeAttribute('src');
       document.body.style.overflow = '';
     }
     closeModal.addEventListener('click', hideModal);
@@ -653,7 +663,7 @@
         const v = entry.target;
         const ds = v.getAttribute('data-src');
         if (ds && !v.src) {
-          v.src = ds; // already encoded below where we set it
+          v.src = ds;
           v.load();
           v.play().catch(()=>{});
         }
@@ -661,18 +671,32 @@
       });
     }, { rootMargin: '250px' });
 
+    function videoSrc(file) {
+      return encodeURI('assets/media/videos/' + file);
+    }
+    function photoSrc(file) {
+      return encodeURI('assets/media/photos/' + file);
+    }
+    function posterSrc(file) {
+      const base = file.replace(/\.mp4$/i, '');
+      return encodeURI('assets/media/posters/' + base + '.jpg');
+    }
+
     // Featured preview in hero
     const featuredPreview = document.getElementById('featuredPreview');
     const featuredBtn = document.getElementById('featuredBtn');
     if (featuredPreview) {
       const ds = featuredPreview.getAttribute('data-src');
       featuredPreview.setAttribute('data-src', encodeURI(ds));
+      const p = featuredPreview.getAttribute('poster');
+      if (p) featuredPreview.setAttribute('poster', encodeURI(p));
       io.observe(featuredPreview);
     }
     featuredBtn?.addEventListener('click', () => {
       openModal({
         title: 'Studio Tour',
-        src: encodeURI('assets/media/videos/Inside building S25.mp4'),
+        type: 'video',
+        src: videoSrc('Inside building S25.mp4'),
         meta: 'Luxury studio tour • Tap to call for availability'
       });
     });
@@ -681,76 +705,683 @@
     document.querySelectorAll('.studioBtn').forEach(btn => {
       btn.addEventListener('click', () => {
         const src = btn.getAttribute('data-src');
-        openModal({ title: 'Studio Tour', src: encodeURI(src), meta: 'Studio preview • Call or text to schedule' });
+        openModal({ title: 'Studio Tour', type: 'video', src: encodeURI(src), meta: 'Studio preview • Call or text to schedule' });
       });
     });
 
     // -----------------------------
     // MEDIA MANIFEST
-    // Edit categories/titles anytime. This is the only place you manage gallery content.
-    // Files must exist in: assets/media/videos/
+    // Videos live in: assets/media/videos/
+    // Photos live in: assets/media/photos/
     // -----------------------------
-    const MEDIA_BASE = 'assets/media/videos/';
     const MEDIA = [
-      // Core (non-TikTok) uploads
-      { type:'video', file:'braid S10.mp4', category:'Braids Showcase', title:'Braids Showcase', featured:true },
-      { type:'video', file:'Braid S11.mp4', category:'Braids Showcase', title:'Braids Showcase', featured:true },
-      { type:'video', file:'Braid S13.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids', featured:true },
-      { type:'video', file:'braid S13.mp4', category:'Braids Showcase', title:'Braids Showcase' },
-      { type:'video', file:'Braid S15.mp4', category:'Extensions / Waves', title:'Waves / Human Hair', featured:true },
-      { type:'video', file:'Braid S16.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids' },
-      { type:'video', file:'Braid S17.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids' },
-      { type:'video', file:'Braid S19.mp4', category:'Men & Women Braids', title:'Men & Women Braids' },
-      { type:'video', file:'Braid S29.mp4', category:'Men & Women Braids', title:'Men & Women Braids' },
-      { type:'video', file:'Braid S30.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids' },
-
-      { type:'video', file:'Braid S31.mp4', category:'Stitch / Feed-In', title:'Stitch / Feed-In Braids', featured:true },
-      { type:'video', file:'Braids S2.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids' },
-      { type:'video', file:'braids S3.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids' },
-      { type:'video', file:'Braids S4.mp4', category:'Stitch / Feed-In', title:'Stitch / Feed-In Braids' },
-      { type:'video', file:'braids S5.mp4', category:'Kids Braids', title:'Kids Braids', featured:true },
-      { type:'video', file:'braids S6.mp4', category:'Boho / Goddess', title:'Boho / Goddess Braids' },
-      { type:'video', file:'braids S7.mp4', category:'Extensions / Waves', title:'Extensions / Waves' },
-      { type:'video', file:'braids S8.mp4', category:'Stitch / Feed-In', title:'Stitch / Feed-In Braids' },
-      { type:'video', file:'braids S12.mp4', category:'Studio / Branding', title:'Studio / Branding', featured:true },
-      { type:'video', file:'Braids S18.mp4', category:'Braids Showcase', title:'Braids Showcase' },
-
-      { type:'video', file:'Braids S22.mp4', category:'Braids Showcase', title:'Braids Showcase' },
-      { type:'video', file:'Braids S24.mp4', category:'Braids Showcase', title:'Braids Showcase' },
-      { type:'video', file:'braids S27.mp4', category:'Braids Showcase', title:'Braids Showcase' },
-
-      { type:'video', file:'extensions S21.mp4', category:'Extensions / Waves', title:'Extensions / Waves' },
-      { type:'video', file:'extensions S28.mp4', category:'Extensions / Waves', title:'Extensions / Waves' },
-      { type:'video', file:'extensions S33.mp4', category:'Extensions / Waves', title:'Extensions / Waves', featured:true },
-      { type:'video', file:'extensions S34.mp4', category:'Extensions / Waves', title:'Extensions / Waves' },
-
-      { type:'video', file:'Inside building S25.mp4', category:'Studio / Branding', title:'Inside the Studio', featured:true },
-      { type:'video', file:'kids braid s1.mp4', category:'Kids Braids', title:'Kids Braids' },
-      { type:'video', file:'kids braids S26.mp4', category:'Kids Braids', title:'Kids Braids' },
-
-      // TikTok clips (optional) — keep or remove
-      { type:'video', file:'tik tok 3.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 4.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 5.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 6.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 7.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 8.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 9.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 10.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 11.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 12.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-
-      { type:'video', file:'tik tok 13.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 15.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 16.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 17.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 18.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 19.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 20.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 21.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 22.mp4', category:'TikTok Clips', title:'TikTok Clip' },
-      { type:'video', file:'tik tok 23.mp4', category:'TikTok Clips', title:'TikTok Clip' }
-    ];
+  {
+    "type": "video",
+    "file": "Braid S13.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids",
+    "featured": true
+  },
+  {
+    "type": "video",
+    "file": "braid S13.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids",
+    "featured": true
+  },
+  {
+    "type": "video",
+    "file": "Braid S16.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braid S17.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braid S29.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braid S30.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braids S2.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braids S22.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braids S24.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "braids S27.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "braids S3.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "braids S6.mp4",
+    "category": "Boho / Goddess",
+    "title": "Boho / Goddess Braids"
+  },
+  {
+    "type": "video",
+    "file": "braid S10.mp4",
+    "category": "Braids Showcase",
+    "title": "Braids Showcase"
+  },
+  {
+    "type": "video",
+    "file": "Braid S11.mp4",
+    "category": "Braids Showcase",
+    "title": "Braids Showcase"
+  },
+  {
+    "type": "video",
+    "file": "braids S12.mp4",
+    "category": "Braids Showcase",
+    "title": "Braids Showcase"
+  },
+  {
+    "type": "video",
+    "file": "Braids S18.mp4",
+    "category": "Braids Showcase",
+    "title": "Braids Showcase"
+  },
+  {
+    "type": "video",
+    "file": "braids S5.mp4",
+    "category": "Braids Showcase",
+    "title": "Braids Showcase"
+  },
+  {
+    "type": "video",
+    "file": "Braid S15.mp4",
+    "category": "Extensions / Waves",
+    "title": "Extensions / Waves"
+  },
+  {
+    "type": "video",
+    "file": "braids S7.mp4",
+    "category": "Extensions / Waves",
+    "title": "Extensions / Waves"
+  },
+  {
+    "type": "video",
+    "file": "extensions S21.mp4",
+    "category": "Extensions / Waves",
+    "title": "Extensions / Waves"
+  },
+  {
+    "type": "video",
+    "file": "extensions S28.mp4",
+    "category": "Extensions / Waves",
+    "title": "Extensions / Waves"
+  },
+  {
+    "type": "video",
+    "file": "extensions S33.mp4",
+    "category": "Extensions / Waves",
+    "title": "Extensions / Waves"
+  },
+  {
+    "type": "video",
+    "file": "extensions S34.mp4",
+    "category": "Extensions / Waves",
+    "title": "Extensions / Waves"
+  },
+  {
+    "type": "video",
+    "file": "kids braid s1.mp4",
+    "category": "Kids Braids",
+    "title": "Kids Braids"
+  },
+  {
+    "type": "video",
+    "file": "kids braids S26.mp4",
+    "category": "Kids Braids",
+    "title": "Kids Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braid S19.mp4",
+    "category": "Men & Women Braids",
+    "title": "Men & Women Braids"
+  },
+  {
+    "type": "video",
+    "file": "Braid S31.mp4",
+    "category": "Stitch / Feed-In",
+    "title": "Stitch / Feed-In Braids",
+    "featured": true
+  },
+  {
+    "type": "video",
+    "file": "Braids S4.mp4",
+    "category": "Stitch / Feed-In",
+    "title": "Stitch / Feed-In Braids",
+    "featured": true
+  },
+  {
+    "type": "video",
+    "file": "braids S8.mp4",
+    "category": "Stitch / Feed-In",
+    "title": "Stitch / Feed-In Braids",
+    "featured": true
+  },
+  {
+    "type": "video",
+    "file": "Inside building S25.mp4",
+    "category": "Studio / Branding",
+    "title": "Inside the Studio",
+    "featured": true
+  },
+  {
+    "type": "image",
+    "file": "braid S10.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S11.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S13.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braid S13.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S15.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S16.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S17.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S19.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S29.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S30.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid S31.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braid_S10.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S11.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S13.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braid_S13.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S15.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S16.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S17.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S19.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S29.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S30.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braid_S31.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S12.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids S18.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids S2.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids S22.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids S24.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S27.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S3.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids S4.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S5.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S6.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S7.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids S8.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S12.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids_S18.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids_S2.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids_S22.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids_S24.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S27.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S3.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Braids_S4.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S5.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S6.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S7.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "braids_S8.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions S21.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions S28.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions S33.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions S34.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions_S21.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions_S28.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions_S33.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "extensions_S34.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "IMG_0471.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "IMG_0473.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Inside building S25.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "Inside_building_S25.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "kids_braid_s1.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "image",
+    "file": "kids_braids_S26.jpg",
+    "category": "Photos",
+    "title": "Photo"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 10.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 11.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 12.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 13.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 15.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 16.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 17.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 18.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 19.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 20.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 21.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 22.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 23.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 3.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 4.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 5.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 6.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 7.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 8.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  },
+  {
+    "type": "video",
+    "file": "tik tok 9.mp4",
+    "category": "TikTok Clips",
+    "title": "TikTok Clip"
+  }
+];
 
     // Build categories
     const categories = [...new Set(MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
@@ -779,11 +1410,6 @@
       showAllBtn.onclick = () => { activeCategory = 'All'; renderAll(); };
     }
 
-    function mediaSrc(file) {
-      // Encode URI to safely support spaces in filenames.
-      return encodeURI(MEDIA_BASE + file);
-    }
-
     function buildCard(item) {
       const card = document.createElement('button');
       card.className = 'relative text-left rounded-3xl overflow-hidden border hairline bg-black/25 shadow-soft hover:shadow-gold transition group';
@@ -792,15 +1418,25 @@
       const inner = document.createElement('div');
       inner.className = 'relative w-full h-full';
 
-      // Video element is lazy-attached for performance.
-      const v = document.createElement('video');
-      v.className = 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition';
-      v.muted = true;
-      v.loop = true;
-      v.playsInline = true;
-      v.preload = 'none';
-      v.setAttribute('data-src', mediaSrc(item.file));
-      io.observe(v);
+      if (item.type === 'image') {
+        const img = document.createElement('img');
+        img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
+        img.loading = 'lazy';
+        img.src = photoSrc(item.file);
+        inner.appendChild(img);
+      } else {
+        // Video element is lazy-attached for performance.
+        const v = document.createElement('video');
+        v.className = 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition';
+        v.muted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.preload = 'none';
+        v.poster = posterSrc(item.file);
+        v.setAttribute('data-src', videoSrc(item.file));
+        io.observe(v);
+        inner.appendChild(v);
+      }
 
       const overlay = document.createElement('div');
       overlay.className = 'media-card absolute inset-0';
@@ -818,13 +1454,14 @@
 
       const pill = document.createElement('div');
       pill.className = 'mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm';
-      pill.innerHTML = `<span class="text-gold">▶</span><span class="text-champagne font-semibold">Watch</span>`;
+      pill.innerHTML = item.type === 'image'
+        ? `<span class="text-gold">▢</span><span class="text-champagne font-semibold">View</span>`
+        : `<span class="text-gold">▶</span><span class="text-champagne font-semibold">Watch</span>`;
 
       meta.appendChild(title);
       meta.appendChild(sub);
       meta.appendChild(pill);
 
-      inner.appendChild(v);
       inner.appendChild(overlay);
       inner.appendChild(meta);
 
@@ -833,8 +1470,9 @@
       card.addEventListener('click', () => {
         openModal({
           title: item.title || item.category,
-          src: mediaSrc(item.file),
-          meta: `Category: ${item.category} • Call (612) 248-8800 to schedule`
+          type: item.type,
+          src: item.type === 'image' ? photoSrc(item.file) : videoSrc(item.file),
+          meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
         });
       });
 
@@ -843,14 +1481,15 @@
 
     function renderFeatured() {
       featuredStrip.innerHTML = '';
-      const featured = MEDIA.filter(m => m.featured).slice(0, 6);
+      const featured = MEDIA.filter(m => m.type === 'video' && m.featured).slice(0, 6);
       featured.forEach(item => {
         const btn = document.createElement('button');
         btn.className = 'relative rounded-2xl overflow-hidden border hairline bg-black/25 aspect-[9/12] group';
         const v = document.createElement('video');
         v.className = 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition';
         v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
-        v.setAttribute('data-src', mediaSrc(item.file));
+        v.poster = posterSrc(item.file);
+        v.setAttribute('data-src', videoSrc(item.file));
         io.observe(v);
 
         const cap = document.createElement('div');
@@ -862,8 +1501,9 @@
         btn.appendChild(cap);
         btn.addEventListener('click', () => openModal({
           title: item.title || item.category,
-          src: mediaSrc(item.file),
-          meta: `Featured • ${item.category}`
+          type: 'video',
+          src: videoSrc(item.file),
+          meta: 'Featured • ' + item.category
         }));
         featuredStrip.appendChild(btn);
       });
@@ -871,14 +1511,13 @@
 
     function renderGrid() {
       mediaGrid.innerHTML = '';
-      const list = (activeCategory === 'All')
-        ? MEDIA.filter(m => m.category !== 'TikTok Clips') // keep main gallery clean
-        : MEDIA.filter(m => m.category === activeCategory);
-
-      // If user selects TikTok category, show those too.
-      const finalList = (activeCategory === 'TikTok Clips') ? MEDIA.filter(m => m.category === 'TikTok Clips') : list;
-
-      finalList.forEach(item => mediaGrid.appendChild(buildCard(item)));
+      let list;
+      if (activeCategory === 'All') {
+        list = MEDIA.filter(m => m.category !== 'TikTok Clips');
+      } else {
+        list = MEDIA.filter(m => m.category === activeCategory);
+      }
+      list.forEach(item => mediaGrid.appendChild(buildCard(item)));
     }
 
     function renderAll() {
@@ -890,9 +1529,4 @@
     renderAll();
   </script>
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
 </html>
