@@ -45,13 +45,11 @@
           },
           keyframes: {
             fadeUp: { '0%': { opacity: 0, transform: 'translateY(14px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
-            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
-            shimmer: { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '100% 50%' } }
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } }
           },
           animation: {
             fadeUp: 'fadeUp .7s ease-out both',
-            float: 'float 7s ease-in-out infinite',
-            shimmer: 'shimmer 10s ease infinite'
+            float: 'float 7s ease-in-out infinite'
           }
         }
       }
@@ -74,10 +72,6 @@
         radial-gradient(900px 520px at 55% 105%, rgba(181,30,46,0.18), transparent 60%),
         linear-gradient(180deg, #07070b 0%, #0b0b0f 55%, #0b0b0f 100%);
     }
-    .gold-gradient {
-      background: linear-gradient(90deg, rgba(200,161,90,1), rgba(246,241,230,1), rgba(200,161,90,1));
-      background-size: 200% 200%;
-    }
     .btn-primary{
       background: linear-gradient(135deg, rgba(122,15,26,1), rgba(181,30,46,1));
       border: 1px solid rgba(200,161,90,0.28);
@@ -93,7 +87,6 @@
       border: 1px solid rgba(200,161,90,0.22);
       background: rgba(200,161,90,0.08);
     }
-    .sr-only-focusable:focus { position: static; width: auto; height: auto; clip: auto; white-space: normal; }
     .media-card::after{
       content:"";
       position:absolute; inset:0;
@@ -106,6 +99,7 @@
       background: rgba(0,0,0,0.45);
       backdrop-filter: blur(10px);
     }
+    .sr-only-focusable:focus { position: static; width: auto; height: auto; clip: auto; white-space: normal; }
   </style>
 
   <!-- LocalBusiness Schema -->
@@ -114,7 +108,7 @@
     "@context":"https://schema.org",
     "@type":"HairSalon",
     "name":"RITA Man & Women Braiding",
-    "image":"assets/brand/logo.png",
+    "image":"logo.png",
     "address":{
       "@type":"PostalAddress",
       "streetAddress":"2000 24th Ave South",
@@ -155,9 +149,8 @@
   <header class="sticky top-0 z-50 bg-obsidian/75 backdrop-blur border-b hairline">
     <nav class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <!-- Logo: place your business-card logo at assets/brand/logo.png -->
         <div class="w-11 h-11 rounded-2xl overflow-hidden border hairline bg-black/30 grid place-items-center">
-          <img src="assets/brand/logo.png" alt="RITA Man & Women Braiding logo" class="w-full h-full object-contain"
+          <img id="siteLogo" src="" alt="RITA Man & Women Braiding logo" class="w-full h-full object-contain"
                onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;font-display text-gold text-lg&quot;>R</span>';">
         </div>
         <div class="leading-tight">
@@ -180,7 +173,6 @@
       </div>
     </nav>
 
-    <!-- Mobile menu -->
     <div id="mobileMenu" class="lg:hidden hidden border-t hairline bg-obsidian/85 backdrop-blur">
       <div class="max-w-7xl mx-auto px-5 py-3 flex flex-col gap-2 text-sm">
         <a href="#services" class="py-2 hover:text-gold">Services</a>
@@ -238,30 +230,26 @@
           </div>
         </div>
 
-        <!-- Right: Featured video card -->
         <div class="relative animate-float">
           <div class="glass rounded-3xl p-4 shadow-glow">
             <div class="flex items-center justify-between pb-3">
-              <p class="font-display text-xl">Featured Reel</p>
-              <span class="text-xs text-champagne/60">Plays in modal for best performance</span>
+              <p class="font-display text-xl">Featured</p>
+              <span class="text-xs text-champagne/60">Tap to preview</span>
             </div>
 
             <button id="featuredBtn" class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border hairline bg-black/30 group">
-              <!-- Updated: poster points to your renamed studio photo; video points to your videos folder -->
-              <video id="featuredPreview" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
-                preload="metadata" muted playsinline loop
-                poster="assets/brand/assets/media/insidebuilding25.jpg"
-                data-src="assets/brand/assets/media/videos/Inside building S25.mp4"></video>
+              <!-- We will inject an image preview (always works) -->
+              <img id="featuredImg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition" alt="Featured style preview" />
               <div class="absolute inset-0 grid place-items-center">
                 <div class="play-pill px-4 py-2 rounded-full flex items-center gap-2">
-                  <span class="text-gold">▶</span>
-                  <span class="text-champagne font-semibold text-sm">Play Studio Tour</span>
+                  <span class="text-gold">▢</span>
+                  <span class="text-champagne font-semibold text-sm">View Featured Style</span>
                 </div>
               </div>
             </button>
 
             <p class="mt-3 text-sm text-champagne/70">
-              Luxury interior, clean stations, and professional service — see the experience before you arrive.
+              Real work, real results — call or text for availability.
             </p>
           </div>
 
@@ -348,36 +336,30 @@
         <div>
           <h2 class="font-display text-3xl font-semibold">Gallery</h2>
           <p class="mt-2 text-champagne/70">
-            Real work, real results. Filter by category and tap a card to watch full-screen.
+            Your photos should show automatically (based on your renamed files).
           </p>
+          <p id="pathStatus" class="mt-2 text-sm text-champagne/55"></p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
           <div class="badge px-3 py-1 rounded-full text-sm text-champagne/75">
-            Tip: drop photos into <span class="text-gold">assets/brand/assets/media/</span> and videos into <span class="text-gold">assets/brand/assets/media/videos/</span>
+            Tip: This version auto-detects your correct Netlify base path.
           </div>
           <button id="showAllBtn" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Show All</button>
         </div>
       </div>
 
-      <!-- Filters -->
       <div id="filterRow" class="mt-8 flex flex-wrap gap-2"></div>
 
-      <!-- Featured strip -->
       <div class="mt-8 glass rounded-3xl p-5 shadow-soft">
         <div class="flex items-center justify-between gap-4">
-          <p class="font-display text-xl text-gold">Featured</p>
-          <p class="text-sm text-champagne/60">Best-performing clips to convert new clients</p>
+          <p class="font-display text-xl text-gold">Featured Styles</p>
+          <p class="text-sm text-champagne/60">Top photo styles (always loads)</p>
         </div>
         <div id="featuredStrip" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"></div>
       </div>
 
-      <!-- Grid -->
       <div id="mediaGrid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-
-      <div class="mt-10 text-sm text-champagne/60">
-        Posters (optional) live in <span class="text-gold">assets/brand/assets/media/posters/</span> (same base name as the video). If you don’t upload posters, videos still work.
-      </div>
     </div>
   </section>
 
@@ -388,7 +370,6 @@
         <h2 class="font-display text-3xl font-semibold">Inside the Studio</h2>
         <p class="mt-3 text-champagne/70">
           Clean stations, luxury vibe, and a professional experience from start to finish.
-          This section is designed to make people feel confident before they arrive.
         </p>
 
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
@@ -416,32 +397,23 @@
       </div>
 
       <div class="glass rounded-3xl p-4 shadow-glow">
-        <p class="font-display text-xl text-gold mb-3">Studio Tour</p>
+        <p class="font-display text-xl text-gold mb-3">Studio Photos</p>
         <div class="grid grid-cols-2 gap-3">
-          <!-- Updated folder paths for videos -->
-          <button class="studioBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-src="assets/brand/assets/media/videos/Inside building S25.mp4">
+          <button class="studioBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-type="image" data-file="insidebuilding24.jpg">
+            <img class="absolute inset-0 w-full h-full object-cover opacity-90" alt="Studio photo" />
             <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▶ Play</div>
+              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
-          <button class="studioBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-src="assets/brand/assets/media/videos/braids S12.mp4">
+          <button class="studioBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-type="image" data-file="insidebuilding25.jpg">
+            <img class="absolute inset-0 w-full h-full object-cover opacity-90" alt="Studio photo" />
             <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▶ Play</div>
-            </div>
-          </button>
-          <button class="studioBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-src="assets/brand/assets/media/videos/tik tok 22.mp4">
-            <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▶ Play</div>
-            </div>
-          </button>
-          <button class="studioBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-src="assets/brand/assets/media/videos/tik tok 21.mp4">
-            <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▶ Play</div>
+              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
         </div>
         <p class="mt-3 text-sm text-champagne/70">
-          Replace any of these four by updating the <code class="text-champagne/80">data-src</code> filenames.
+          These two should show immediately if your files exist (insidebuilding24.jpg / insidebuilding25.jpg).
         </p>
       </div>
     </div>
@@ -455,7 +427,6 @@
           <h2 class="font-display text-3xl font-semibold">Daily on TikTok</h2>
           <p class="mt-2 text-champagne/70">
             New videos posted daily: <span class="text-gold font-semibold">@hairbyrita</span>.
-            Use this section for social proof and to drive follows.
           </p>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -470,7 +441,7 @@
             <section></section>
           </blockquote>
           <p class="mt-3 text-sm text-champagne/60">
-            If you prefer faster page speed, keep the feed button-enabled (current setup). It loads only when clicked.
+            Feed loads only when clicked to keep the site fast.
           </p>
         </div>
       </div>
@@ -483,7 +454,6 @@
       <div>
         <h2 class="font-display text-3xl font-semibold">Call to Schedule</h2>
         <p class="mt-3 text-champagne/70">
-          This website is designed to promote the business and showcase services.
           To book, please call or text for availability.
         </p>
 
@@ -512,7 +482,6 @@
                class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
             <a href="https://www.tiktok.com/@hairbyrita" target="_blank" rel="noopener"
                class="px-4 py-2 rounded-xl btn-ghost font-semibold">TikTok</a>
-            <a href="#" class="px-4 py-2 rounded-xl btn-ghost font-semibold" onclick="alert('Add your Instagram link in the code (search for this button).');return false;">Instagram</a>
           </div>
         </div>
       </div>
@@ -534,9 +503,6 @@
             <a href="tel:6122488800" class="text-center px-4 py-3 rounded-2xl btn-primary font-semibold">Call</a>
             <a href="sms:13213186231" class="text-center px-4 py-3 rounded-2xl btn-ghost text-gold font-semibold">Text</a>
           </div>
-          <p class="mt-4 text-xs text-champagne/60">
-            Tip: Put your logo file at <span class="text-gold">assets/brand/logo.png</span>. Drop photos in <span class="text-gold">assets/brand/assets/media/</span> and videos in <span class="text-gold">assets/brand/assets/media/videos/</span>.
-          </p>
         </div>
       </aside>
     </div>
@@ -563,7 +529,7 @@
     </div>
   </div>
 
-  <!-- Modal player -->
+  <!-- Modal -->
   <div id="modal" class="fixed inset-0 z-[60] hidden">
     <div class="absolute inset-0 bg-black/80"></div>
     <div class="relative max-w-5xl mx-auto px-4 py-10 h-full flex items-center">
@@ -573,8 +539,8 @@
           <button id="closeModal" class="px-3 py-2 rounded-xl btn-ghost text-gold font-semibold">Close</button>
         </div>
         <div class="bg-black">
-          <video id="modalVideo" class="w-full max-h-[75vh] object-contain" controls playsinline></video>
-          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Gallery photo preview" />
+          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Preview" />
+          <video id="modalVideo" class="w-full max-h-[75vh] object-contain hidden" controls playsinline></video>
         </div>
         <div id="modalMeta" class="p-4 text-sm text-champagne/70"></div>
       </div>
@@ -582,16 +548,7 @@
   </div>
 
   <script>
-    // -----------------------------
-    // IMPORTANT SETUP (UPLOAD-AND-GO)
-    // ✅ Your GitHub folders:
-    // 1) Logo:   assets/brand/logo.png
-    // 2) Photos: assets/brand/assets/media/
-    // 3) Videos: assets/brand/assets/media/videos/
-    // 4) Posters (optional): assets/brand/assets/media/posters/  (same base name as video)
-    // -----------------------------
-
-    // NAV: Mobile menu
+    // Mobile menu
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -600,7 +557,7 @@
     // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // TikTok: load on demand for performance
+    // TikTok: load on demand
     document.getElementById('loadTikTokBtn')?.addEventListener('click', () => {
       const wrap = document.getElementById('tiktokEmbedWrap');
       wrap.classList.remove('hidden');
@@ -625,147 +582,124 @@
       modalMeta.textContent = meta || '';
       modal.classList.remove('hidden');
 
-      // Reset both
+      // reset
       modalVideo.pause();
+      modalVideo.classList.add('hidden');
       modalVideo.removeAttribute('src');
       modalVideo.load();
+
       modalImg.classList.add('hidden');
       modalImg.removeAttribute('src');
 
-      if (type === 'image' || (src && src.toLowerCase().endsWith('.jpg'))) {
-        modalVideo.classList.add('hidden');
-        modalImg.classList.remove('hidden');
-        modalImg.src = src;
-      } else {
+      if (type === 'video') {
         modalVideo.classList.remove('hidden');
         modalVideo.src = src;
         modalVideo.play().catch(()=>{});
+      } else {
+        modalImg.classList.remove('hidden');
+        modalImg.src = src;
       }
 
       document.body.style.overflow = 'hidden';
     }
-
     function hideModal() {
       modal.classList.add('hidden');
       modalVideo.pause();
       modalVideo.removeAttribute('src');
       modalVideo.load();
-      modalImg.classList.add('hidden');
       modalImg.removeAttribute('src');
       document.body.style.overflow = '';
     }
-
     closeModal.addEventListener('click', hideModal);
     modal.addEventListener('click', (e) => { if (e.target === modal.firstElementChild) hideModal(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideModal(); });
 
-    // Lazy video attach (performance)
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const v = entry.target;
-        const ds = v.getAttribute('data-src');
-        if (ds && !v.src) {
-          v.src = ds;
-          v.load();
-          v.play().catch(()=>{});
+    // ----------------------------------------------------
+    // AUTO-DETECT BASE PATHS (fixes Netlify publish-dir mismatch)
+    // ----------------------------------------------------
+    const statusEl = document.getElementById('pathStatus');
+
+    const CANDIDATES = [
+      // if Netlify publish dir is "assets/brand"
+      { label: 'publish=assets/brand', mediaRoot: '/assets/media', videosRoot: '/assets/media/videos', postersRoot: '/assets/media/posters', logo: '/logo.png' },
+      // if Netlify publish dir is repo root
+      { label: 'publish=repo root', mediaRoot: '/assets/brand/assets/media', videosRoot: '/assets/brand/assets/media/videos', postersRoot: '/assets/brand/assets/media/posters', logo: '/assets/brand/logo.png' }
+    ];
+
+    let PATHS = null;
+
+    async function headOk(url) {
+      try {
+        const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    async function detectPaths() {
+      statusEl.textContent = 'Detecting correct media path…';
+      for (const c of CANDIDATES) {
+        const probe = c.mediaRoot + '/braids1.jpg';
+        const ok = await headOk(probe);
+        if (ok) {
+          PATHS = c;
+          statusEl.textContent = `Media path detected: ${c.label} • ${c.mediaRoot}/`;
+          return;
         }
-        io.unobserve(v);
-      });
-    }, { rootMargin: '250px' });
+      }
+      // fallback (still render, but will likely be blank until paths fixed)
+      PATHS = CANDIDATES[1];
+      statusEl.textContent = 'Could not auto-detect media path. Check Netlify publish directory or file locations.';
+    }
 
-    // ✅ PATHS UPDATED TO MATCH YOUR REPO
-    const MEDIA_ROOT  = 'assets/brand/assets/media/';
-    const VIDEO_ROOT  = 'assets/brand/assets/media/videos/';
-    const POSTER_ROOT = 'assets/brand/assets/media/posters/';
-
-    function videoSrc(file)  { return encodeURI(VIDEO_ROOT + file); }
-    function photoSrc(file)  { return encodeURI(MEDIA_ROOT + file); }
-    function posterSrc(file) {
+    function photoSrc(file) {
+      return encodeURI(PATHS.mediaRoot + '/' + file);
+    }
+    function videoSrc(file) {
+      return encodeURI(PATHS.videosRoot + '/' + file);
+    }
+    function posterFromVideo(file) {
       const base = file.replace(/\.mp4$/i, '');
-      return encodeURI(POSTER_ROOT + base + '.jpg');
+      return encodeURI(PATHS.postersRoot + '/' + base + '.jpg');
     }
 
-    // Featured preview in hero
-    const featuredPreview = document.getElementById('featuredPreview');
-    const featuredBtn = document.getElementById('featuredBtn');
+    // ----------------------------------------------------
+    // MEDIA LIST (matches your renamed photo files)
+    // ----------------------------------------------------
+    function buildMedia() {
+      const media = [];
 
-    if (featuredPreview) {
-      const ds = featuredPreview.getAttribute('data-src');
-      featuredPreview.setAttribute('data-src', encodeURI(ds));
-      const p = featuredPreview.getAttribute('poster');
-      if (p) featuredPreview.setAttribute('poster', encodeURI(p));
-      io.observe(featuredPreview);
+      // braids1.jpg ... braids33.jpg
+      for (let i = 1; i <= 33; i++) {
+        media.push({ type: 'image', file: `braids${i}.jpg`, category: 'Braids', title: 'Braids' });
+      }
+
+      // extras shown in your screenshot
+      [
+        'extensions21.jpg',
+        'extensions23.jpg',
+        'extensions28.jpg',
+        'extensions33.jpg',
+        'kids_braids_s26.jpg',
+        'insidebuilding24.jpg',
+        'insidebuilding25.jpg'
+      ].forEach(f => media.push({ type: 'image', file: f, category: 'More Styles', title: 'Style' }));
+
+      // OPTIONAL: add videos here once you confirm exact filenames inside videos folder.
+      // Example:
+      // media.push({ type:'video', file:'tiktok21.mp4', category:'Videos', title:'TikTok Clip', featured:true });
+
+      return media;
     }
 
-    featuredBtn?.addEventListener('click', () => {
-      openModal({
-        title: 'Studio Tour',
-        type: 'video',
-        src: videoSrc('Inside building S25.mp4'),
-        meta: 'Luxury studio tour • Tap to call for availability'
-      });
-    });
-
-    // Studio buttons (their data-src already includes full path; we encodeURI it)
-    document.querySelectorAll('.studioBtn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const src = btn.getAttribute('data-src');
-        openModal({ title: 'Studio Tour', type: 'video', src: encodeURI(src), meta: 'Studio preview • Call or text to schedule' });
-      });
-    });
-
-    // -----------------------------
-    // MEDIA MANIFEST
-    // ✅ Photos are now aligned to your renamed files (no spaces / lowercase)
-    // ✅ Photo folder: assets/brand/assets/media/
-    // ✅ Video folder: assets/brand/assets/media/videos/
-    // -----------------------------
-
-    // Photos from your screenshots: braids1..braids33 + extensions + studio + kids
-    const MEDIA_PHOTOS = [
-      ...Array.from({ length: 33 }, (_, i) => ({
-        type: "image",
-        file: `braids${i + 1}.jpg`,
-        category: "Braids Photos",
-        title: `Braids Photo ${i + 1}`
-      })),
-
-      { type: "image", file: "extensions21.jpg", category: "Extensions Photos", title: "Extensions" },
-      { type: "image", file: "extensions23.jpg", category: "Extensions Photos", title: "Extensions" },
-      { type: "image", file: "extensions28.jpg", category: "Extensions Photos", title: "Extensions" },
-      { type: "image", file: "extensions33.jpg", category: "Extensions Photos", title: "Extensions" },
-
-      { type: "image", file: "insidebuilding24.jpg", category: "Studio Photos", title: "Inside the Studio" },
-      { type: "image", file: "insidebuilding25.jpg", category: "Studio Photos", title: "Inside the Studio" },
-
-      { type: "image", file: "kids_braids_s26.jpg", category: "Kids Braids Photos", title: "Kids Braids" },
-
-      // Optional if it exists in your repo:
-      { type: "image", file: "braid_s13.jpg", category: "Braids Photos", title: "Braids Photo" }
-    ];
-
-    // Keep videos simple + reliable. Add more by duplicating an object and changing the filename.
-    // IMPORTANT: Video filenames must match exactly what’s inside assets/brand/assets/media/videos/
-    const MEDIA_VIDEOS = [
-      { type: "video", file: "Inside building S25.mp4", category: "Studio / Branding", title: "Inside the Studio", featured: true },
-      { type: "video", file: "braids S12.mp4", category: "Braids Showcase", title: "Braids Showcase", featured: true },
-      { type: "video", file: "tik tok 22.mp4", category: "TikTok Clips", title: "TikTok Clip" },
-      { type: "video", file: "tik tok 21.mp4", category: "TikTok Clips", title: "TikTok Clip" }
-    ];
-
-    const MEDIA = [
-      ...MEDIA_VIDEOS,
-      ...MEDIA_PHOTOS
-    ];
-
-    // Build categories
-    const categories = [...new Set(MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
+    // Build UI
     const filterRow = document.getElementById('filterRow');
     const mediaGrid = document.getElementById('mediaGrid');
     const featuredStrip = document.getElementById('featuredStrip');
     const showAllBtn = document.getElementById('showAllBtn');
 
+    let MEDIA = [];
     let activeCategory = 'All';
 
     function makeFilterPill(label) {
@@ -780,6 +714,7 @@
     }
 
     function renderFilters() {
+      const categories = [...new Set(MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
       filterRow.innerHTML = '';
       filterRow.appendChild(makeFilterPill('All'));
       categories.forEach(c => filterRow.appendChild(makeFilterPill(c)));
@@ -806,10 +741,9 @@
         v.muted = true;
         v.loop = true;
         v.playsInline = true;
-        v.preload = 'none';
-        v.poster = posterSrc(item.file);          // optional
-        v.setAttribute('data-src', videoSrc(item.file));
-        io.observe(v);
+        v.preload = 'metadata';
+        v.poster = posterFromVideo(item.file);
+        v.src = videoSrc(item.file);
         inner.appendChild(v);
       }
 
@@ -839,7 +773,6 @@
 
       inner.appendChild(overlay);
       inner.appendChild(meta);
-
       card.appendChild(inner);
 
       card.addEventListener('click', () => {
@@ -856,29 +789,28 @@
 
     function renderFeatured() {
       featuredStrip.innerHTML = '';
-      const featured = MEDIA.filter(m => m.type === 'video' && m.featured).slice(0, 6);
-      featured.forEach(item => {
+      const picks = MEDIA.filter(m => m.type === 'image').slice(0, 6);
+      picks.forEach(item => {
         const btn = document.createElement('button');
         btn.className = 'relative rounded-2xl overflow-hidden border hairline bg-black/25 aspect-[9/12] group';
-        const v = document.createElement('video');
-        v.className = 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition';
-        v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
-        v.poster = posterSrc(item.file);
-        v.setAttribute('data-src', videoSrc(item.file));
-        io.observe(v);
+
+        const img = document.createElement('img');
+        img.className = 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition';
+        img.loading = 'lazy';
+        img.src = photoSrc(item.file);
 
         const cap = document.createElement('div');
         cap.className = 'absolute inset-x-0 bottom-0 p-3';
         cap.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2">
-          <span class="text-gold">▶</span><span class="text-champagne font-semibold text-xs">Play</span></div>`;
+          <span class="text-gold">▢</span><span class="text-champagne font-semibold text-xs">View</span></div>`;
 
-        btn.appendChild(v);
+        btn.appendChild(img);
         btn.appendChild(cap);
         btn.addEventListener('click', () => openModal({
-          title: item.title || item.category,
-          type: 'video',
-          src: videoSrc(item.file),
-          meta: 'Featured • ' + item.category
+          title: 'Featured Style',
+          type: 'image',
+          src: photoSrc(item.file),
+          meta: item.file
         }));
         featuredStrip.appendChild(btn);
       });
@@ -886,12 +818,7 @@
 
     function renderGrid() {
       mediaGrid.innerHTML = '';
-      let list;
-      if (activeCategory === 'All') {
-        list = MEDIA.filter(m => m.category !== 'TikTok Clips');
-      } else {
-        list = MEDIA.filter(m => m.category === activeCategory);
-      }
+      const list = activeCategory === 'All' ? MEDIA : MEDIA.filter(m => m.category === activeCategory);
       list.forEach(item => mediaGrid.appendChild(buildCard(item)));
     }
 
@@ -899,9 +826,42 @@
       renderFilters();
       renderFeatured();
       renderGrid();
+      // update filter pill styles
+      [...filterRow.querySelectorAll('button')].forEach(b => {
+        b.className = b.className.replace('text-gold','text-champagne/80');
+        if (b.textContent === activeCategory) b.className = b.className.replace('text-champagne/80','text-gold');
+      });
     }
 
-    renderAll();
+    async function init() {
+      await detectPaths();
+
+      // Set logo based on detected publish dir
+      const logo = document.getElementById('siteLogo');
+      logo.src = PATHS.logo;
+
+      // Set featured image
+      MEDIA = buildMedia();
+      const featuredImg = document.getElementById('featuredImg');
+      featuredImg.src = photoSrc('braids1.jpg');
+      document.getElementById('featuredBtn').addEventListener('click', () => {
+        openModal({ title: 'Featured Style', type: 'image', src: photoSrc('braids1.jpg'), meta: 'braids1.jpg' });
+      });
+
+      // Set studio thumbnails
+      document.querySelectorAll('.studioBtn').forEach(btn => {
+        const file = btn.getAttribute('data-file');
+        const img = btn.querySelector('img');
+        img.src = photoSrc(file);
+        btn.addEventListener('click', () => {
+          openModal({ title: 'Studio Photo', type: 'image', src: photoSrc(file), meta: file });
+        });
+      });
+
+      renderAll();
+    }
+
+    init();
   </script>
 </body>
 </html>
