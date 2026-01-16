@@ -41,17 +41,15 @@
           boxShadow: {
             soft: '0 10px 30px rgba(0,0,0,0.35)',
             glow: '0 0 0 1px rgba(200,161,90,0.18), 0 18px 50px rgba(0,0,0,0.5)',
-            gold: '0 0 0 1px rgba(200,161,90,0.25), 0 18px 60px rgba(122,15,26,0.18)',
+            gold: '0 0 0 1px rgba(200,161,90,0.25), 0 18px 60px rgba(122,15,26,0.18)'
           },
           keyframes: {
             fadeUp: { '0%': { opacity: 0, transform: 'translateY(14px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
-            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
-            shimmer: { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '100% 50%' } }
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } }
           },
           animation: {
             fadeUp: 'fadeUp .7s ease-out both',
-            float: 'float 7s ease-in-out infinite',
-            shimmer: 'shimmer 10s ease infinite'
+            float: 'float 7s ease-in-out infinite'
           }
         }
       }
@@ -74,10 +72,6 @@
         radial-gradient(900px 520px at 55% 105%, rgba(181,30,46,0.18), transparent 60%),
         linear-gradient(180deg, #07070b 0%, #0b0b0f 55%, #0b0b0f 100%);
     }
-    .gold-gradient {
-      background: linear-gradient(90deg, rgba(200,161,90,1), rgba(246,241,230,1), rgba(200,161,90,1));
-      background-size: 200% 200%;
-    }
     .btn-primary{
       background: linear-gradient(135deg, rgba(122,15,26,1), rgba(181,30,46,1));
       border: 1px solid rgba(200,161,90,0.28);
@@ -94,7 +88,6 @@
       background: rgba(200,161,90,0.08);
     }
     .sr-only-focusable:focus { position: static; width: auto; height: auto; clip: auto; white-space: normal; }
-
     .media-card::after{
       content:"";
       position:absolute; inset:0;
@@ -107,6 +100,8 @@
       background: rgba(0,0,0,0.45);
       backdrop-filter: blur(10px);
     }
+    /* Prevent iOS video fullscreen unless user chooses */
+    video { background: #000; }
   </style>
 
   <!-- LocalBusiness Schema -->
@@ -239,12 +234,12 @@
           </div>
         </div>
 
-        <!-- Right: Featured style image (smooth + always works) -->
+        <!-- Right: Featured photo -->
         <div class="relative animate-float">
           <div class="glass rounded-3xl p-4 shadow-glow">
             <div class="flex items-center justify-between pb-3">
               <p class="font-display text-xl">Featured Style</p>
-              <span class="text-xs text-champagne/60">Always loads (photo)</span>
+              <span class="text-xs text-champagne/60">Loads from your photo folder</span>
             </div>
 
             <button id="featuredBtn" class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border hairline bg-black/30 group">
@@ -266,7 +261,7 @@
 
           <div class="absolute -bottom-6 -right-6 hidden md:block glass rounded-3xl p-4 shadow-gold">
             <p class="font-display text-lg text-gold">Owner / Stylist</p>
-            <p class="text-champagne/80 mt-1">Rrahel Testaye</p>
+            <p class="text-champagne/80 mt-1">rrahel testaye</p>
             <p class="text-sm text-champagne/65 mt-2">Call or text for availability</p>
           </div>
         </div>
@@ -279,7 +274,7 @@
     <div class="flex items-end justify-between gap-6">
       <div>
         <h2 class="font-display text-3xl font-semibold">Services</h2>
-        <p class="mt-2 text-champagne/70">Based on your business card — plus more. Call to confirm pricing and timing.</p>
+        <p class="mt-2 text-champagne/70">Call to confirm pricing and timing.</p>
       </div>
       <a href="#contact" class="hidden sm:inline-flex px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Call to Schedule →</a>
     </div>
@@ -288,43 +283,43 @@
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Braids</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• All braids</li>
-          <li>• Boho braid</li>
-          <li>• Men & women braids</li>
-          <li>• Children braid</li>
+          <li>• all braids</li>
+          <li>• boho braid</li>
+          <li>• men & women braids</li>
+          <li>• children braids</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Twists</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Twist</li>
-          <li>• Nafaqo</li>
-          <li>• Koshe</li>
-          <li>• Sweling</li>
+          <li>• twist</li>
+          <li>• nafaqo</li>
+          <li>• koshe</li>
+          <li>• sweling</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Dreadlocks</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Dreadlocks</li>
-          <li>• Maintenance / retwist</li>
-          <li>• Styling options</li>
+          <li>• dreadlocks</li>
+          <li>• maintenance / retwist</li>
+          <li>• styling options</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Extensions</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Waves / human hair</li>
-          <li>• Extensions</li>
-          <li>• Natural blend finish</li>
+          <li>• waves / human hair</li>
+          <li>• extensions</li>
+          <li>• natural blend finish</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
-        <p class="font-display text-xl text-gold">Hair Care</p>
+        <p class="font-display text-xl text-gold">Hair care</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Ethiopian butter</li>
-          <li>• Scalp-friendly care</li>
-          <li>• Protective styling guidance</li>
+          <li>• ethiopian butter</li>
+          <li>• scalp-friendly care</li>
+          <li>• protective styling guidance</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
@@ -347,13 +342,13 @@
         <div>
           <h2 class="font-display text-3xl font-semibold">Gallery</h2>
           <p class="mt-2 text-champagne/70">
-            Real photos. No broken links. Filter by category and tap a card to view full-screen.
+            Photos and videos load from your new folders (lowercase, no spaces).
           </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
           <div class="badge px-3 py-1 rounded-full text-sm text-champagne/75">
-            Your real media folder is <span class="text-gold">assets/brand/assets/media/</span>
+            photos: <span class="text-gold">assets/media/photos/</span> • videos: <span class="text-gold">assets/media/videos/</span>
           </div>
           <button id="showAllBtn" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Show All</button>
         </div>
@@ -362,16 +357,26 @@
       <!-- Filters -->
       <div id="filterRow" class="mt-8 flex flex-wrap gap-2"></div>
 
-      <!-- Featured strip (photos only, always loads) -->
+      <!-- Featured strip (photos) -->
       <div class="mt-8 glass rounded-3xl p-5 shadow-soft">
         <div class="flex items-center justify-between gap-4">
           <p class="font-display text-xl text-gold">Featured Styles</p>
-          <p class="text-sm text-champagne/60">Top photo styles (always loads)</p>
+          <p class="text-sm text-champagne/60">photos that always load</p>
         </div>
         <div id="featuredStrip" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"></div>
       </div>
 
-      <!-- Grid -->
+      <!-- Videos strip (auto from manifest.json) -->
+      <div class="mt-8 glass rounded-3xl p-5 shadow-soft">
+        <div class="flex items-center justify-between gap-4">
+          <p class="font-display text-xl text-gold">Videos</p>
+          <p class="text-sm text-champagne/60">auto loads from manifest.json</p>
+        </div>
+        <div id="videoGrid" class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <p id="videoHint" class="mt-4 text-sm text-champagne/60 hidden"></p>
+      </div>
+
+      <!-- Photo grid -->
       <div id="mediaGrid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </div>
   </section>
@@ -383,17 +388,16 @@
         <h2 class="font-display text-3xl font-semibold">Inside the Studio</h2>
         <p class="mt-3 text-champagne/70">
           Clean stations, luxury vibe, and a professional experience from start to finish.
-          This section is designed to make people feel confident before they arrive.
         </p>
 
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
           <div class="glass rounded-3xl p-5">
             <p class="text-gold font-semibold">What clients love</p>
             <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-              <li>• Comfortable environment</li>
-              <li>• Clean parts + neat finish</li>
-              <li>• Friendly, professional service</li>
-              <li>• Quick scheduling by phone/text</li>
+              <li>• comfortable environment</li>
+              <li>• clean parts + neat finish</li>
+              <li>• friendly, professional service</li>
+              <li>• quick scheduling by phone/text</li>
             </ul>
           </div>
           <div class="glass rounded-3xl p-5">
@@ -404,40 +408,40 @@
             <div class="mt-4 flex flex-wrap gap-2">
               <a href="tel:6122488800" class="px-4 py-2 rounded-xl btn-primary font-semibold">Call</a>
               <a href="sms:13213186231" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Text</a>
-              <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20Ave%20South%20Minneapolis%20MN%2055406" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
+              <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20ave%20south%20minneapolis%20mn%2055406" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Studio photos (no videos here to prevent blank cards) -->
+      <!-- Studio photos -->
       <div class="glass rounded-3xl p-4 shadow-glow">
         <div class="flex items-center justify-between">
           <p class="font-display text-xl text-gold">Studio Photos</p>
-          <p class="text-xs text-champagne/60">Always loads</p>
+          <p class="text-xs text-champagne/60">loads from photos folder</p>
         </div>
 
         <div class="mt-4 grid grid-cols-2 gap-3">
           <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding24.jpg">
             <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
+              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ view</div>
             </div>
           </button>
           <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding25.jpg">
             <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
+              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ view</div>
             </div>
           </button>
         </div>
 
         <p class="mt-3 text-sm text-champagne/70">
-          Want videos here later? We can add a “Play video” tile once your videos are in a stable folder.
+          Videos are in the Gallery video section above.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- TikTok (smooth: load on click) -->
+  <!-- TikTok -->
   <section id="tiktok" class="border-t hairline bg-carbon/40">
     <div class="max-w-7xl mx-auto px-5 py-16">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
@@ -480,9 +484,7 @@
     <div class="grid lg:grid-cols-2 gap-10">
       <div>
         <h2 class="font-display text-3xl font-semibold">Call to Schedule</h2>
-        <p class="mt-3 text-champagne/70">
-          To book, please call or text for availability.
-        </p>
+        <p class="mt-3 text-champagne/70">To book, please call or text for availability.</p>
 
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
           <a href="tel:6122488800" class="glass rounded-3xl p-6 shadow-soft hover:shadow-gold transition">
@@ -491,7 +493,7 @@
             <p class="mt-1 text-sm text-champagne/70">Call for appointments</p>
           </a>
           <a href="sms:13213186231" class="glass rounded-3xl p-6 shadow-soft hover:shadow-gold transition">
-            <p class="text-gold font-semibold">Cell / Text</p>
+            <p class="text-gold font-semibold">Text</p>
             <p class="mt-2 font-display text-2xl">(321) 318-6231</p>
             <p class="mt-1 text-sm text-champagne/70">Text style ideas</p>
           </a>
@@ -505,14 +507,10 @@
           </div>
 
           <div class="mt-5 flex flex-wrap gap-2">
-            <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20Ave%20South%20Minneapolis%20MN%2055406" target="_blank" rel="noopener"
+            <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20ave%20south%20minneapolis%20mn%2055406" target="_blank" rel="noopener"
                class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
             <a href="https://www.tiktok.com/@hairbyrita" target="_blank" rel="noopener"
                class="px-4 py-2 rounded-xl btn-ghost font-semibold">TikTok</a>
-            <a href="#" class="px-4 py-2 rounded-xl btn-ghost font-semibold"
-               onclick="alert('Add your Instagram link in the code (search for this button).');return false;">
-              Instagram
-            </a>
           </div>
         </div>
       </div>
@@ -520,14 +518,14 @@
       <aside class="glass rounded-3xl overflow-hidden shadow-glow">
         <div class="p-6 border-b hairline">
           <p class="font-display text-2xl text-gold">Visit Us</p>
-          <p class="mt-2 text-champagne/75">2000 24th Ave South, Minneapolis, MN 55406</p>
-          <p class="mt-2 text-sm text-champagne/60">Owner / Stylist: Rrahel Testaye</p>
+          <p class="mt-2 text-champagne/75">2000 24th ave south, minneapolis, mn 55406</p>
+          <p class="mt-2 text-sm text-champagne/60">owner / stylist: rrahel testaye</p>
         </div>
         <iframe
           title="RITA Man & Women Braiding Map"
           class="w-full h-80"
           loading="lazy"
-          src="https://www.google.com/maps?q=2000%2024th%20Ave%20South%20Minneapolis%20MN%2055406&output=embed">
+          src="https://www.google.com/maps?q=2000%2024th%20ave%20south%20minneapolis%20mn%2055406&output=embed">
         </iframe>
         <div class="p-6">
           <div class="grid grid-cols-2 gap-3">
@@ -535,7 +533,7 @@
             <a href="sms:13213186231" class="text-center px-4 py-3 rounded-2xl btn-ghost text-gold font-semibold">Text</a>
           </div>
           <p class="mt-4 text-xs text-champagne/60">
-            Tip: Your working photo path is <span class="text-gold">assets/brand/assets/media/</span>
+            media paths: <span class="text-gold">assets/media/photos/</span> and <span class="text-gold">assets/media/videos/</span>
           </p>
         </div>
       </aside>
@@ -563,43 +561,80 @@
     </div>
   </div>
 
-  <!-- Modal viewer -->
+  <!-- Modal viewer (image + video) -->
   <div id="modal" class="fixed inset-0 z-[60] hidden">
-    <div class="absolute inset-0 bg-black/80"></div>
+    <div id="modalBackdrop" class="absolute inset-0 bg-black/80"></div>
     <div class="relative max-w-5xl mx-auto px-4 py-10 h-full flex items-center">
       <div class="glass w-full rounded-3xl overflow-hidden border hairline shadow-glow">
         <div class="p-4 flex items-center justify-between">
           <p id="modalTitle" class="font-display text-lg text-gold">Preview</p>
           <button id="closeModal" class="px-3 py-2 rounded-xl btn-ghost text-gold font-semibold">Close</button>
         </div>
+
         <div class="bg-black">
-          <img id="modalImg" class="w-full max-h-[75vh] object-contain" alt="Gallery photo preview" />
+          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="preview image" />
+          <video id="modalVideo" class="w-full max-h-[75vh] hidden" controls playsinline preload="metadata"></video>
         </div>
+
         <div id="modalMeta" class="p-4 text-sm text-champagne/70"></div>
       </div>
     </div>
   </div>
 
   <script>
-    // =============================
-    // CRITICAL FIX (YOUR ISSUE)
-    // Your images work at:
-    //   /assets/brand/assets/media/braids1.jpg
-    // NOT at:
-    //   /assets/media/braids1.jpg
-    // =============================
-    const MEDIA_BASE_PRIMARY = 'assets/brand/assets/media/';
-    const MEDIA_BASE_FALLBACK = 'assets/media/'; // if you later move them, this still works
+    // =========================================================
+    // CRITICAL: PATHS (LOWERCASE, NO SPACES)
+    // =========================================================
+    const PHOTO_BASES = [
+      'assets/media/photos/',          // recommended new folder
+      'assets/brand/assets/media/'     // legacy fallback (your older working path)
+    ];
 
-    function imgWithFallback(imgEl, filename) {
-      imgEl.src = encodeURI(MEDIA_BASE_PRIMARY + filename);
-      imgEl.onerror = () => {
-        imgEl.onerror = null;
-        imgEl.src = encodeURI(MEDIA_BASE_FALLBACK + filename);
-      };
+    const VIDEO_BASES = [
+      'assets/media/videos/'           // recommended new folder
+    ];
+
+    const VIDEO_MANIFEST_URL = 'assets/media/videos/manifest.json';
+
+    // =========================================================
+    // HELPERS
+    // =========================================================
+    function sanitizeName(name) {
+      // Your rule: no capitals, no spaces. This ensures we always request the correct version.
+      // Note: you still must rename files in GitHub to match.
+      return String(name || '')
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '_');
     }
 
+    function setSrcWithFallback(el, bases, filename) {
+      const file = sanitizeName(filename);
+      let i = 0;
+
+      function tryNext() {
+        if (i >= bases.length) return false;
+        el.src = encodeURI(bases[i] + file);
+        i++;
+        return true;
+      }
+
+      el.onerror = () => {
+        el.onerror = null;
+        // Try next base
+        if (tryNext()) {
+          el.onerror = () => {
+            el.onerror = null;
+          };
+        }
+      };
+
+      tryNext();
+    }
+
+    // =========================================================
     // NAV: Mobile menu
+    // =========================================================
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -620,75 +655,85 @@
       }
     });
 
-    // Modal
+    // =========================================================
+    // MODAL (IMAGE + VIDEO)
+    // =========================================================
     const modal = document.getElementById('modal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
     const closeModal = document.getElementById('closeModal');
     const modalImg = document.getElementById('modalImg');
+    const modalVideo = document.getElementById('modalVideo');
     const modalTitle = document.getElementById('modalTitle');
     const modalMeta = document.getElementById('modalMeta');
 
-    function openModal({title, src, meta}) {
+    function openModal({ kind, title, src, meta }) {
       modalTitle.textContent = title || 'Preview';
       modalMeta.textContent = meta || '';
       modal.classList.remove('hidden');
-
-      modalImg.removeAttribute('src');
-      modalImg.style.opacity = '0';
-      modalImg.onload = () => { modalImg.style.opacity = '1'; };
-      modalImg.src = src;
-
       document.body.style.overflow = 'hidden';
+
+      // Reset
+      modalImg.classList.add('hidden');
+      modalVideo.classList.add('hidden');
+      modalImg.removeAttribute('src');
+      modalVideo.removeAttribute('src');
+      modalVideo.pause();
+
+      if (kind === 'video') {
+        modalVideo.classList.remove('hidden');
+        modalVideo.src = src;
+        modalVideo.load();
+      } else {
+        modalImg.classList.remove('hidden');
+        modalImg.src = src;
+      }
     }
+
     function hideModal() {
       modal.classList.add('hidden');
       modalImg.removeAttribute('src');
+      modalVideo.pause();
+      modalVideo.removeAttribute('src');
       document.body.style.overflow = '';
     }
+
     closeModal.addEventListener('click', hideModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal.firstElementChild) hideModal(); });
+    modalBackdrop.addEventListener('click', hideModal);
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideModal(); });
 
-    // =============================
-    // GALLERY MANIFEST (MATCHES YOUR RENAMED FILES)
-    // Put these exact files in:
-    //   assets/brand/assets/media/
-    // =============================
-    const MEDIA = [
-      // BRAIDS (your braids1..braids33)
+    // =========================================================
+    // PHOTOS MANIFEST (YOU CAN EXTEND THIS LIST ANY TIME)
+    // All filenames are forced lowercase/no spaces at request time.
+    // =========================================================
+    const PHOTO_MEDIA = [
       ...Array.from({length: 33}, (_, i) => ({
         type: 'image',
         file: `braids${i+1}.jpg`,
-        category: 'Braids',
-        title: 'Braids Style'
+        category: 'braids',
+        title: 'braids style'
       })),
-
-      // EXTENSIONS (from your list)
-      { type:'image', file:'extensions21.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'extensions23.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'extensions28.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'extensions33.jpg', category:'Extensions', title:'Extensions' },
-
-      // STUDIO
-      { type:'image', file:'insidebuilding24.jpg', category:'Studio', title:'Studio' },
-      { type:'image', file:'insidebuilding25.jpg', category:'Studio', title:'Studio' },
-
-      // KIDS
-      { type:'image', file:'kids_braids_s26.jpg', category:'Kids', title:'Kids Braids' },
+      { type:'image', file:'extensions21.jpg', category:'extensions', title:'extensions' },
+      { type:'image', file:'extensions23.jpg', category:'extensions', title:'extensions' },
+      { type:'image', file:'extensions28.jpg', category:'extensions', title:'extensions' },
+      { type:'image', file:'extensions33.jpg', category:'extensions', title:'extensions' },
+      { type:'image', file:'insidebuilding24.jpg', category:'studio', title:'studio' },
+      { type:'image', file:'insidebuilding25.jpg', category:'studio', title:'studio' },
+      { type:'image', file:'kids_braids_s26.jpg', category:'kids', title:'kids braids' }
     ];
 
-    // FEATURED (best converting photos)
     const FEATURED_FILES = [
       'braids1.jpg','braids10.jpg','braids11.jpg','braids12.jpg','extensions21.jpg','kids_braids_s26.jpg'
     ];
 
-    // Build categories
-    const categories = [...new Set(MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
+    // =========================================================
+    // RENDER: FILTERS + PHOTOS
+    // =========================================================
+    const categories = [...new Set(PHOTO_MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
     const filterRow = document.getElementById('filterRow');
     const mediaGrid = document.getElementById('mediaGrid');
     const featuredStrip = document.getElementById('featuredStrip');
     const showAllBtn = document.getElementById('showAllBtn');
-
-    let activeCategory = 'All';
+    let activeCategory = 'all';
 
     function makeFilterPill(label) {
       const btn = document.createElement('button');
@@ -696,32 +741,30 @@
       btn.textContent = label;
       btn.addEventListener('click', () => {
         activeCategory = label;
-        renderAll();
+        renderAllPhotos();
       });
       return btn;
     }
 
     function renderFilters() {
       filterRow.innerHTML = '';
-      filterRow.appendChild(makeFilterPill('All'));
+      filterRow.appendChild(makeFilterPill('all'));
       categories.forEach(c => filterRow.appendChild(makeFilterPill(c)));
-      showAllBtn.onclick = () => { activeCategory = 'All'; renderAll(); };
+      showAllBtn.onclick = () => { activeCategory = 'all'; renderAllPhotos(); };
     }
 
-    function buildCard(item) {
+    function buildPhotoCard(item) {
       const card = document.createElement('button');
       card.className = 'relative text-left rounded-3xl overflow-hidden border hairline bg-black/25 shadow-soft hover:shadow-gold transition group';
       card.style.minHeight = '280px';
-
-      const inner = document.createElement('div');
-      inner.className = 'relative w-full h-full';
 
       const img = document.createElement('img');
       img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
       img.loading = 'lazy';
       img.alt = item.title || item.category;
-      imgWithFallback(img, item.file);
-      inner.appendChild(img);
+
+      // Load with fallback paths
+      setSrcWithFallback(img, PHOTO_BASES, item.file);
 
       const overlay = document.createElement('div');
       overlay.className = 'media-card absolute inset-0';
@@ -729,38 +772,35 @@
       const meta = document.createElement('div');
       meta.className = 'absolute bottom-0 left-0 right-0 p-4 z-10';
 
-      const title = document.createElement('p');
-      title.className = 'font-display text-xl text-champagne';
-      title.textContent = item.title || item.category;
+      meta.innerHTML = `
+        <p class="font-display text-xl text-champagne">${item.title || item.category}</p>
+        <p class="mt-1 text-sm text-champagne/70">${item.category}</p>
+        <div class="mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm">
+          <span class="text-gold">▢</span><span class="text-champagne font-semibold">view</span>
+        </div>
+      `;
 
-      const sub = document.createElement('p');
-      sub.className = 'mt-1 text-sm text-champagne/70';
-      sub.textContent = item.category;
-
-      const pill = document.createElement('div');
-      pill.className = 'mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm';
-      pill.innerHTML = `<span class="text-gold">▢</span><span class="text-champagne font-semibold">View</span>`;
-
-      meta.appendChild(title);
-      meta.appendChild(sub);
-      meta.appendChild(pill);
-
-      inner.appendChild(overlay);
-      inner.appendChild(meta);
-      card.appendChild(inner);
+      card.appendChild(img);
+      card.appendChild(overlay);
+      card.appendChild(meta);
 
       card.addEventListener('click', () => {
+        const primarySrc = encodeURI(PHOTO_BASES[0] + sanitizeName(item.file));
+        const fallbackSrc = encodeURI(PHOTO_BASES[1] + sanitizeName(item.file));
+        // Prefer new folder; if it fails, user will see a missing image — that's fine because
+        // the card image already used fallback to load. So we use the card image source:
         openModal({
+          kind: 'image',
           title: item.title || item.category,
-          src: encodeURI(MEDIA_BASE_PRIMARY + item.file),
-          meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
+          src: img.currentSrc || img.src || primarySrc || fallbackSrc,
+          meta: 'category: ' + item.category + ' • call (612) 248-8800 to schedule'
         });
       });
 
       return card;
     }
 
-    function renderFeatured() {
+    function renderFeaturedPhotos() {
       featuredStrip.innerHTML = '';
       FEATURED_FILES.forEach(file => {
         const btn = document.createElement('button');
@@ -769,67 +809,164 @@
         const img = document.createElement('img');
         img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
         img.loading = 'lazy';
-        img.alt = 'Featured style';
-        imgWithFallback(img, file);
+        img.alt = 'featured style';
+        setSrcWithFallback(img, PHOTO_BASES, file);
 
         const cap = document.createElement('div');
         cap.className = 'absolute inset-x-0 bottom-0 p-3';
         cap.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2">
-          <span class="text-gold">▢</span><span class="text-champagne font-semibold text-xs">View</span></div>`;
+          <span class="text-gold">▢</span><span class="text-champagne font-semibold text-xs">view</span></div>`;
 
         btn.appendChild(img);
         btn.appendChild(cap);
 
-        btn.addEventListener('click', () => openModal({
-          title: 'Featured Style',
-          src: encodeURI(MEDIA_BASE_PRIMARY + file),
-          meta: 'Featured • Tap Call to schedule'
-        }));
+        btn.addEventListener('click', () => {
+          openModal({
+            kind: 'image',
+            title: 'featured style',
+            src: img.currentSrc || img.src,
+            meta: 'featured • tap call to schedule'
+          });
+        });
 
         featuredStrip.appendChild(btn);
       });
     }
 
-    function renderGrid() {
+    function renderPhotoGrid() {
       mediaGrid.innerHTML = '';
-      let list = (activeCategory === 'All') ? MEDIA : MEDIA.filter(m => m.category === activeCategory);
-      list.forEach(item => mediaGrid.appendChild(buildCard(item)));
+      const list = (activeCategory === 'all') ? PHOTO_MEDIA : PHOTO_MEDIA.filter(m => m.category === activeCategory);
+      list.forEach(item => mediaGrid.appendChild(buildPhotoCard(item)));
     }
 
-    function renderAll() {
+    function renderAllPhotos() {
       renderFilters();
-      renderFeatured();
-      renderGrid();
+      renderFeaturedPhotos();
+      renderPhotoGrid();
     }
 
-    // HERO featured image
+    // Hero featured image (photo)
     const featuredImg = document.getElementById('featuredImg');
-    imgWithFallback(featuredImg, 'braids1.jpg');
+    setSrcWithFallback(featuredImg, PHOTO_BASES, 'braids1.jpg');
+
     document.getElementById('featuredBtn')?.addEventListener('click', () => {
-      openModal({ title:'Featured Style', src: encodeURI(MEDIA_BASE_PRIMARY + 'braids1.jpg'), meta:'Call (612) 248-8800 to schedule' });
+      openModal({
+        kind: 'image',
+        title: 'featured style',
+        src: featuredImg.currentSrc || featuredImg.src,
+        meta: 'call (612) 248-8800 to schedule'
+      });
     });
 
     // Studio photo buttons
     document.querySelectorAll('.studioPhotoBtn').forEach(btn => {
       const file = btn.getAttribute('data-img');
-      // Set background via an img tag for reliability
       const img = document.createElement('img');
       img.className = 'absolute inset-0 w-full h-full object-cover opacity-95';
       img.loading = 'lazy';
-      img.alt = 'Studio photo';
-      imgWithFallback(img, file);
+      img.alt = 'studio photo';
+      setSrcWithFallback(img, PHOTO_BASES, file);
       btn.appendChild(img);
 
       btn.addEventListener('click', () => {
         openModal({
-          title: 'Studio Photo',
-          src: encodeURI(MEDIA_BASE_PRIMARY + file),
-          meta: 'Studio preview • Call or text to schedule'
+          kind: 'image',
+          title: 'studio photo',
+          src: img.currentSrc || img.src,
+          meta: 'studio preview • call or text to schedule'
         });
       });
     });
 
-    renderAll();
+    // =========================================================
+    // VIDEOS (AUTO LOAD FROM manifest.json)
+    // =========================================================
+    const videoGrid = document.getElementById('videoGrid');
+    const videoHint = document.getElementById('videoHint');
+
+    async function loadVideoManifest() {
+      try {
+        const res = await fetch(VIDEO_MANIFEST_URL, { cache: 'no-store' });
+        if (!res.ok) return [];
+        const list = await res.json();
+        return Array.isArray(list) ? list.map(sanitizeName) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function buildVideoCard(filename) {
+      const name = sanitizeName(filename);
+
+      const card = document.createElement('button');
+      card.className = 'relative text-left rounded-3xl overflow-hidden border hairline bg-black/25 shadow-soft hover:shadow-gold transition group';
+      card.style.minHeight = '280px';
+
+      // A muted preview video tile. (No autoplay; only loads metadata for speed.)
+      const vid = document.createElement('video');
+      vid.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.preload = 'metadata';
+
+      // In case of missing file, remove card quietly.
+      vid.onerror = () => { card.remove(); };
+
+      vid.src = encodeURI(VIDEO_BASES[0] + name);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'media-card absolute inset-0';
+
+      const meta = document.createElement('div');
+      meta.className = 'absolute bottom-0 left-0 right-0 p-4 z-10';
+      meta.innerHTML = `
+        <p class="font-display text-xl text-champagne">video</p>
+        <p class="mt-1 text-sm text-champagne/70">${name}</p>
+        <div class="mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm">
+          <span class="text-gold">▶</span><span class="text-champagne font-semibold">play</span>
+        </div>
+      `;
+
+      card.appendChild(vid);
+      card.appendChild(overlay);
+      card.appendChild(meta);
+
+      card.addEventListener('click', () => {
+        openModal({
+          kind: 'video',
+          title: 'clip',
+          src: encodeURI(VIDEO_BASES[0] + name),
+          meta: 'if it does not play, the filename or folder does not match'
+        });
+      });
+
+      // Subtle hover: attempt a short play preview (best-effort; safe if blocked)
+      card.addEventListener('mouseenter', () => { try { vid.play().catch(()=>{}); } catch(_){} });
+      card.addEventListener('mouseleave', () => { try { vid.pause(); } catch(_){} });
+
+      return card;
+    }
+
+    async function renderVideos() {
+      videoGrid.innerHTML = '';
+      const files = await loadVideoManifest();
+
+      if (!files.length) {
+        videoHint.classList.remove('hidden');
+        videoHint.textContent =
+          'no videos found yet. add mp4s to assets/media/videos/ and list them in assets/media/videos/manifest.json (lowercase, no spaces).';
+        return;
+      }
+
+      videoHint.classList.add('hidden');
+      files.forEach(f => videoGrid.appendChild(buildVideoCard(f)));
+    }
+
+    // =========================================================
+    // INIT
+    // =========================================================
+    renderAllPhotos();
+    renderVideos();
   </script>
 </body>
 </html>
