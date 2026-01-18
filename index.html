@@ -41,15 +41,17 @@
           boxShadow: {
             soft: '0 10px 30px rgba(0,0,0,0.35)',
             glow: '0 0 0 1px rgba(200,161,90,0.18), 0 18px 50px rgba(0,0,0,0.5)',
-            gold: '0 0 0 1px rgba(200,161,90,0.25), 0 18px 60px rgba(122,15,26,0.18)'
+            gold: '0 0 0 1px rgba(200,161,90,0.25), 0 18px 60px rgba(122,15,26,0.18)',
           },
           keyframes: {
             fadeUp: { '0%': { opacity: 0, transform: 'translateY(14px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
-            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } }
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
+            shimmer: { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '100% 50%' } }
           },
           animation: {
             fadeUp: 'fadeUp .7s ease-out both',
-            float: 'float 7s ease-in-out infinite'
+            float: 'float 7s ease-in-out infinite',
+            shimmer: 'shimmer 10s ease infinite'
           }
         }
       }
@@ -88,6 +90,7 @@
       background: rgba(200,161,90,0.08);
     }
     .sr-only-focusable:focus { position: static; width: auto; height: auto; clip: auto; white-space: normal; }
+
     .media-card::after{
       content:"";
       position:absolute; inset:0;
@@ -100,8 +103,6 @@
       background: rgba(0,0,0,0.45);
       backdrop-filter: blur(10px);
     }
-    /* Prevent iOS video fullscreen unless user chooses */
-    video { background: #000; }
   </style>
 
   <!-- LocalBusiness Schema -->
@@ -110,7 +111,7 @@
     "@context":"https://schema.org",
     "@type":"HairSalon",
     "name":"RITA Man & Women Braiding",
-    "image":"assets/brand/logo.png",
+    "image":"/assets/brand/logo.png",
     "address":{
       "@type":"PostalAddress",
       "streetAddress":"2000 24th Ave South",
@@ -152,7 +153,7 @@
     <nav class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-2xl overflow-hidden border hairline bg-black/30 grid place-items-center">
-          <img src="assets/brand/logo.png" alt="RITA Man & Women Braiding logo"
+          <img src="/assets/brand/logo.png" alt="RITA Man & Women Braiding logo"
                class="w-full h-full object-contain"
                onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;font-display text-gold text-lg&quot;>R</span>';">
         </div>
@@ -234,12 +235,12 @@
           </div>
         </div>
 
-        <!-- Right: Featured photo -->
+        <!-- Right: Featured style image (smooth + always works) -->
         <div class="relative animate-float">
           <div class="glass rounded-3xl p-4 shadow-glow">
             <div class="flex items-center justify-between pb-3">
               <p class="font-display text-xl">Featured Style</p>
-              <span class="text-xs text-champagne/60">Loads from your photo folder</span>
+              <span class="text-xs text-champagne/60">Photo preview</span>
             </div>
 
             <button id="featuredBtn" class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border hairline bg-black/30 group">
@@ -261,7 +262,7 @@
 
           <div class="absolute -bottom-6 -right-6 hidden md:block glass rounded-3xl p-4 shadow-gold">
             <p class="font-display text-lg text-gold">Owner / Stylist</p>
-            <p class="text-champagne/80 mt-1">rrahel testaye</p>
+            <p class="text-champagne/80 mt-1">Rrahel Testaye</p>
             <p class="text-sm text-champagne/65 mt-2">Call or text for availability</p>
           </div>
         </div>
@@ -274,7 +275,7 @@
     <div class="flex items-end justify-between gap-6">
       <div>
         <h2 class="font-display text-3xl font-semibold">Services</h2>
-        <p class="mt-2 text-champagne/70">Call to confirm pricing and timing.</p>
+        <p class="mt-2 text-champagne/70">Based on your business card — plus more. Call to confirm pricing and timing.</p>
       </div>
       <a href="#contact" class="hidden sm:inline-flex px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Call to Schedule →</a>
     </div>
@@ -283,43 +284,43 @@
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Braids</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• all braids</li>
-          <li>• boho braid</li>
-          <li>• men & women braids</li>
-          <li>• children braids</li>
+          <li>• All braids</li>
+          <li>• Boho braid</li>
+          <li>• Men & women braids</li>
+          <li>• Children braid</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Twists</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• twist</li>
-          <li>• nafaqo</li>
-          <li>• koshe</li>
-          <li>• sweling</li>
+          <li>• Twist</li>
+          <li>• Nafaqo</li>
+          <li>• Koshe</li>
+          <li>• Sweling</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Dreadlocks</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• dreadlocks</li>
-          <li>• maintenance / retwist</li>
-          <li>• styling options</li>
+          <li>• Dreadlocks</li>
+          <li>• Maintenance / retwist</li>
+          <li>• Styling options</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Extensions</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• waves / human hair</li>
-          <li>• extensions</li>
-          <li>• natural blend finish</li>
+          <li>• Waves / human hair</li>
+          <li>• Extensions</li>
+          <li>• Natural blend finish</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
-        <p class="font-display text-xl text-gold">Hair care</p>
+        <p class="font-display text-xl text-gold">Hair Care</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• ethiopian butter</li>
-          <li>• scalp-friendly care</li>
-          <li>• protective styling guidance</li>
+          <li>• Ethiopian butter</li>
+          <li>• Scalp-friendly care</li>
+          <li>• Protective styling guidance</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
@@ -342,41 +343,38 @@
         <div>
           <h2 class="font-display text-3xl font-semibold">Gallery</h2>
           <p class="mt-2 text-champagne/70">
-            Photos and videos load from your new folders (lowercase, no spaces).
+            Photos + featured clips. Tap to view full-screen.
           </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-          <div class="badge px-3 py-1 rounded-full text-sm text-champagne/75">
-            photos: <span class="text-gold">assets/media/photos/</span> • videos: <span class="text-gold">assets/media/videos/</span>
-          </div>
           <button id="showAllBtn" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Show All</button>
         </div>
+      </div>
+
+      <!-- Featured videos (manifest-driven) -->
+      <div class="mt-8 glass rounded-3xl p-5 shadow-soft">
+        <div class="flex items-center justify-between gap-4">
+          <p class="font-display text-xl text-gold">Featured Clips</p>
+          <p class="text-sm text-champagne/60">Loads smoothly (click to play)</p>
+        </div>
+        <div id="videoStrip" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"></div>
+        <p id="videoHint" class="mt-3 text-sm text-champagne/60 hidden"></p>
       </div>
 
       <!-- Filters -->
       <div id="filterRow" class="mt-8 flex flex-wrap gap-2"></div>
 
-      <!-- Featured strip (photos) -->
+      <!-- Featured strip (photos only) -->
       <div class="mt-8 glass rounded-3xl p-5 shadow-soft">
         <div class="flex items-center justify-between gap-4">
           <p class="font-display text-xl text-gold">Featured Styles</p>
-          <p class="text-sm text-champagne/60">photos that always load</p>
+          <p class="text-sm text-champagne/60">Top photo styles</p>
         </div>
         <div id="featuredStrip" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"></div>
       </div>
 
-      <!-- Videos strip (auto from manifest.json) -->
-      <div class="mt-8 glass rounded-3xl p-5 shadow-soft">
-        <div class="flex items-center justify-between gap-4">
-          <p class="font-display text-xl text-gold">Videos</p>
-          <p class="text-sm text-champagne/60">auto loads from manifest.json</p>
-        </div>
-        <div id="videoGrid" class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-        <p id="videoHint" class="mt-4 text-sm text-champagne/60 hidden"></p>
-      </div>
-
-      <!-- Photo grid -->
+      <!-- Grid -->
       <div id="mediaGrid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </div>
   </section>
@@ -394,10 +392,10 @@
           <div class="glass rounded-3xl p-5">
             <p class="text-gold font-semibold">What clients love</p>
             <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-              <li>• comfortable environment</li>
-              <li>• clean parts + neat finish</li>
-              <li>• friendly, professional service</li>
-              <li>• quick scheduling by phone/text</li>
+              <li>• Comfortable environment</li>
+              <li>• Clean parts + neat finish</li>
+              <li>• Friendly, professional service</li>
+              <li>• Quick scheduling by phone/text</li>
             </ul>
           </div>
           <div class="glass rounded-3xl p-5">
@@ -408,40 +406,39 @@
             <div class="mt-4 flex flex-wrap gap-2">
               <a href="tel:6122488800" class="px-4 py-2 rounded-xl btn-primary font-semibold">Call</a>
               <a href="sms:13213186231" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Text</a>
-              <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20ave%20south%20minneapolis%20mn%2055406" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
+              <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20Ave%20South%20Minneapolis%20MN%2055406" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Studio photos -->
       <div class="glass rounded-3xl p-4 shadow-glow">
         <div class="flex items-center justify-between">
           <p class="font-display text-xl text-gold">Studio Photos</p>
-          <p class="text-xs text-champagne/60">loads from photos folder</p>
+          <p class="text-xs text-champagne/60">Tap to view</p>
         </div>
 
         <div class="mt-4 grid grid-cols-2 gap-3">
           <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding24.jpg">
             <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ view</div>
+              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
           <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding25.jpg">
             <div class="absolute inset-0 grid place-items-center">
-              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ view</div>
+              <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
         </div>
 
         <p class="mt-3 text-sm text-champagne/70">
-          Videos are in the Gallery video section above.
+          Featured clips load above (Gallery) to keep performance fast.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- TikTok -->
+  <!-- TikTok (smooth: load on click) -->
   <section id="tiktok" class="border-t hairline bg-carbon/40">
     <div class="max-w-7xl mx-auto px-5 py-16">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
@@ -484,7 +481,9 @@
     <div class="grid lg:grid-cols-2 gap-10">
       <div>
         <h2 class="font-display text-3xl font-semibold">Call to Schedule</h2>
-        <p class="mt-3 text-champagne/70">To book, please call or text for availability.</p>
+        <p class="mt-3 text-champagne/70">
+          To book, please call or text for availability.
+        </p>
 
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
           <a href="tel:6122488800" class="glass rounded-3xl p-6 shadow-soft hover:shadow-gold transition">
@@ -493,7 +492,7 @@
             <p class="mt-1 text-sm text-champagne/70">Call for appointments</p>
           </a>
           <a href="sms:13213186231" class="glass rounded-3xl p-6 shadow-soft hover:shadow-gold transition">
-            <p class="text-gold font-semibold">Text</p>
+            <p class="text-gold font-semibold">Cell / Text</p>
             <p class="mt-2 font-display text-2xl">(321) 318-6231</p>
             <p class="mt-1 text-sm text-champagne/70">Text style ideas</p>
           </a>
@@ -507,10 +506,14 @@
           </div>
 
           <div class="mt-5 flex flex-wrap gap-2">
-            <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20ave%20south%20minneapolis%20mn%2055406" target="_blank" rel="noopener"
+            <a href="https://www.google.com/maps/search/?api=1&query=2000%2024th%20Ave%20South%20Minneapolis%20MN%2055406" target="_blank" rel="noopener"
                class="px-4 py-2 rounded-xl btn-ghost font-semibold">Directions</a>
             <a href="https://www.tiktok.com/@hairbyrita" target="_blank" rel="noopener"
                class="px-4 py-2 rounded-xl btn-ghost font-semibold">TikTok</a>
+            <a href="#" class="px-4 py-2 rounded-xl btn-ghost font-semibold"
+               onclick="alert('Add your Instagram link in the code (search for this button).');return false;">
+              Instagram
+            </a>
           </div>
         </div>
       </div>
@@ -518,23 +521,20 @@
       <aside class="glass rounded-3xl overflow-hidden shadow-glow">
         <div class="p-6 border-b hairline">
           <p class="font-display text-2xl text-gold">Visit Us</p>
-          <p class="mt-2 text-champagne/75">2000 24th ave south, minneapolis, mn 55406</p>
-          <p class="mt-2 text-sm text-champagne/60">owner / stylist: rrahel testaye</p>
+          <p class="mt-2 text-champagne/75">2000 24th Ave South, Minneapolis, MN 55406</p>
+          <p class="mt-2 text-sm text-champagne/60">Owner / Stylist: Rrahel Testaye</p>
         </div>
         <iframe
           title="RITA Man & Women Braiding Map"
           class="w-full h-80"
           loading="lazy"
-          src="https://www.google.com/maps?q=2000%2024th%20ave%20south%20minneapolis%20mn%2055406&output=embed">
+          src="https://www.google.com/maps?q=2000%2024th%20Ave%20South%20Minneapolis%20MN%2055406&output=embed">
         </iframe>
         <div class="p-6">
           <div class="grid grid-cols-2 gap-3">
             <a href="tel:6122488800" class="text-center px-4 py-3 rounded-2xl btn-primary font-semibold">Call</a>
             <a href="sms:13213186231" class="text-center px-4 py-3 rounded-2xl btn-ghost text-gold font-semibold">Text</a>
           </div>
-          <p class="mt-4 text-xs text-champagne/60">
-            media paths: <span class="text-gold">assets/media/photos/</span> and <span class="text-gold">assets/media/videos/</span>
-          </p>
         </div>
       </aside>
     </div>
@@ -563,7 +563,7 @@
 
   <!-- Modal viewer (image + video) -->
   <div id="modal" class="fixed inset-0 z-[60] hidden">
-    <div id="modalBackdrop" class="absolute inset-0 bg-black/80"></div>
+    <div class="absolute inset-0 bg-black/80"></div>
     <div class="relative max-w-5xl mx-auto px-4 py-10 h-full flex items-center">
       <div class="glass w-full rounded-3xl overflow-hidden border hairline shadow-glow">
         <div class="p-4 flex items-center justify-between">
@@ -572,7 +572,7 @@
         </div>
 
         <div class="bg-black">
-          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="preview image" />
+          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Gallery photo preview" />
           <video id="modalVideo" class="w-full max-h-[75vh] hidden" controls playsinline preload="metadata"></video>
         </div>
 
@@ -582,59 +582,57 @@
   </div>
 
   <script>
-    // =========================================================
-    // CRITICAL: PATHS (LOWERCASE, NO SPACES)
-    // =========================================================
+    // =============================
+    // BASE PATHS (ABSOLUTE)
+    // =============================
+    const VIDEO_BASE = '/assets/media/videos/';
+    const VIDEO_MANIFEST_URL = VIDEO_BASE + 'manifest.json';
+
+    // Photos: new folder first, old folder fallback (in case you still have old images)
     const PHOTO_BASES = [
-      'assets/media/photos/',          // recommended new folder
-      'assets/brand/assets/media/'     // legacy fallback (your older working path)
+      '/assets/media/photos/',
+      '/assets/brand/assets/media/'
     ];
 
-    const VIDEO_BASES = [
-      'assets/media/videos/'           // recommended new folder
-    ];
-
-    const VIDEO_MANIFEST_URL = 'assets/media/videos/manifest.json';
-
-    // =========================================================
-    // HELPERS
-    // =========================================================
-    function sanitizeName(name) {
-      // Your rule: no capitals, no spaces. This ensures we always request the correct version.
-      // Note: you still must rename files in GitHub to match.
-      return String(name || '')
+    function sanitizeFilename(name) {
+      return (name || '')
         .trim()
         .toLowerCase()
         .replace(/\s+/g, '_');
     }
 
-    function setSrcWithFallback(el, bases, filename) {
-      const file = sanitizeName(filename);
-      let i = 0;
-
-      function tryNext() {
-        if (i >= bases.length) return false;
-        el.src = encodeURI(bases[i] + file);
-        i++;
-        return true;
-      }
-
-      el.onerror = () => {
-        el.onerror = null;
-        // Try next base
-        if (tryNext()) {
-          el.onerror = () => {
-            el.onerror = null;
-          };
-        }
-      };
-
-      tryNext();
+    function urlJoin(base, file) {
+      return encodeURI(base + file);
     }
 
-    // =========================================================
+    function tryLoadImage(imgEl, filename) {
+      const file = sanitizeFilename(filename);
+      let i = 0;
+
+      function attempt() {
+        if (i >= PHOTO_BASES.length) return;
+        imgEl.src = urlJoin(PHOTO_BASES[i], file);
+        imgEl.onerror = () => {
+          imgEl.onerror = null;
+          i++;
+          attempt();
+        };
+      }
+      attempt();
+    }
+
+    function buildVideoUrl(file) {
+      // Try exact (encoded) first, then sanitized fallback
+      const original = (file || '').trim();
+      const cleaned = sanitizeFilename(original);
+
+      return {
+        primary: urlJoin(VIDEO_BASE, original),
+        fallback: urlJoin(VIDEO_BASE, cleaned)
+      };
+    }
+
     // NAV: Mobile menu
-    // =========================================================
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -655,18 +653,15 @@
       }
     });
 
-    // =========================================================
-    // MODAL (IMAGE + VIDEO)
-    // =========================================================
+    // Modal controls
     const modal = document.getElementById('modal');
-    const modalBackdrop = document.getElementById('modalBackdrop');
     const closeModal = document.getElementById('closeModal');
     const modalImg = document.getElementById('modalImg');
     const modalVideo = document.getElementById('modalVideo');
     const modalTitle = document.getElementById('modalTitle');
     const modalMeta = document.getElementById('modalMeta');
 
-    function openModal({ kind, title, src, meta }) {
+    function openModal({ type, title, src, meta, fallbackSrc }) {
       modalTitle.textContent = title || 'Preview';
       modalMeta.textContent = meta || '';
       modal.classList.remove('hidden');
@@ -676,13 +671,27 @@
       modalImg.classList.add('hidden');
       modalVideo.classList.add('hidden');
       modalImg.removeAttribute('src');
-      modalVideo.removeAttribute('src');
       modalVideo.pause();
+      modalVideo.removeAttribute('src');
+      modalVideo.load();
 
-      if (kind === 'video') {
+      if (type === 'video') {
         modalVideo.classList.remove('hidden');
         modalVideo.src = src;
-        modalVideo.load();
+
+        modalVideo.onerror = () => {
+          // If primary fails (404 or bad filename), try sanitized fallback
+          if (fallbackSrc && modalVideo.src !== fallbackSrc) {
+            modalVideo.src = fallbackSrc;
+            modalVideo.load();
+            return;
+          }
+          // If this triggers even with correct URL, it’s likely codec (HEVC/H.265) issue
+          modalMeta.textContent = (meta || '') + ' • Video failed to play: check file URL + H.264 encoding.';
+        };
+
+        // Autoplay only after user click (this modal open is a user gesture)
+        modalVideo.play().catch(()=>{});
       } else {
         modalImg.classList.remove('hidden');
         modalImg.src = src;
@@ -694,46 +703,45 @@
       modalImg.removeAttribute('src');
       modalVideo.pause();
       modalVideo.removeAttribute('src');
+      modalVideo.load();
       document.body.style.overflow = '';
     }
 
     closeModal.addEventListener('click', hideModal);
-    modalBackdrop.addEventListener('click', hideModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal.firstElementChild) hideModal(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideModal(); });
 
-    // =========================================================
-    // PHOTOS MANIFEST (YOU CAN EXTEND THIS LIST ANY TIME)
-    // All filenames are forced lowercase/no spaces at request time.
-    // =========================================================
-    const PHOTO_MEDIA = [
+    // =============================
+    // PHOTO LIST (KEEP YOUR CURRENT LIST)
+    // =============================
+    const MEDIA = [
       ...Array.from({length: 33}, (_, i) => ({
         type: 'image',
         file: `braids${i+1}.jpg`,
-        category: 'braids',
-        title: 'braids style'
+        category: 'Braids',
+        title: 'Braids Style'
       })),
-      { type:'image', file:'extensions21.jpg', category:'extensions', title:'extensions' },
-      { type:'image', file:'extensions23.jpg', category:'extensions', title:'extensions' },
-      { type:'image', file:'extensions28.jpg', category:'extensions', title:'extensions' },
-      { type:'image', file:'extensions33.jpg', category:'extensions', title:'extensions' },
-      { type:'image', file:'insidebuilding24.jpg', category:'studio', title:'studio' },
-      { type:'image', file:'insidebuilding25.jpg', category:'studio', title:'studio' },
-      { type:'image', file:'kids_braids_s26.jpg', category:'kids', title:'kids braids' }
+      { type:'image', file:'extensions21.jpg', category:'Extensions', title:'Extensions' },
+      { type:'image', file:'extensions23.jpg', category:'Extensions', title:'Extensions' },
+      { type:'image', file:'extensions28.jpg', category:'Extensions', title:'Extensions' },
+      { type:'image', file:'extensions33.jpg', category:'Extensions', title:'Extensions' },
+      { type:'image', file:'insidebuilding24.jpg', category:'Studio', title:'Studio' },
+      { type:'image', file:'insidebuilding25.jpg', category:'Studio', title:'Studio' },
+      { type:'image', file:'kids_braids_s26.jpg', category:'Kids', title:'Kids Braids' },
     ];
 
     const FEATURED_FILES = [
       'braids1.jpg','braids10.jpg','braids11.jpg','braids12.jpg','extensions21.jpg','kids_braids_s26.jpg'
     ];
 
-    // =========================================================
-    // RENDER: FILTERS + PHOTOS
-    // =========================================================
-    const categories = [...new Set(PHOTO_MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
+    // Categories
+    const categories = [...new Set(MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
     const filterRow = document.getElementById('filterRow');
     const mediaGrid = document.getElementById('mediaGrid');
     const featuredStrip = document.getElementById('featuredStrip');
     const showAllBtn = document.getElementById('showAllBtn');
-    let activeCategory = 'all';
+
+    let activeCategory = 'All';
 
     function makeFilterPill(label) {
       const btn = document.createElement('button');
@@ -741,30 +749,32 @@
       btn.textContent = label;
       btn.addEventListener('click', () => {
         activeCategory = label;
-        renderAllPhotos();
+        renderAll();
       });
       return btn;
     }
 
     function renderFilters() {
       filterRow.innerHTML = '';
-      filterRow.appendChild(makeFilterPill('all'));
+      filterRow.appendChild(makeFilterPill('All'));
       categories.forEach(c => filterRow.appendChild(makeFilterPill(c)));
-      showAllBtn.onclick = () => { activeCategory = 'all'; renderAllPhotos(); };
+      showAllBtn.onclick = () => { activeCategory = 'All'; renderAll(); };
     }
 
-    function buildPhotoCard(item) {
+    function buildCard(item) {
       const card = document.createElement('button');
       card.className = 'relative text-left rounded-3xl overflow-hidden border hairline bg-black/25 shadow-soft hover:shadow-gold transition group';
       card.style.minHeight = '280px';
+
+      const inner = document.createElement('div');
+      inner.className = 'relative w-full h-full';
 
       const img = document.createElement('img');
       img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
       img.loading = 'lazy';
       img.alt = item.title || item.category;
-
-      // Load with fallback paths
-      setSrcWithFallback(img, PHOTO_BASES, item.file);
+      tryLoadImage(img, item.file);
+      inner.appendChild(img);
 
       const overlay = document.createElement('div');
       overlay.className = 'media-card absolute inset-0';
@@ -772,35 +782,40 @@
       const meta = document.createElement('div');
       meta.className = 'absolute bottom-0 left-0 right-0 p-4 z-10';
 
-      meta.innerHTML = `
-        <p class="font-display text-xl text-champagne">${item.title || item.category}</p>
-        <p class="mt-1 text-sm text-champagne/70">${item.category}</p>
-        <div class="mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm">
-          <span class="text-gold">▢</span><span class="text-champagne font-semibold">view</span>
-        </div>
-      `;
+      const title = document.createElement('p');
+      title.className = 'font-display text-xl text-champagne';
+      title.textContent = item.title || item.category;
 
-      card.appendChild(img);
-      card.appendChild(overlay);
-      card.appendChild(meta);
+      const sub = document.createElement('p');
+      sub.className = 'mt-1 text-sm text-champagne/70';
+      sub.textContent = item.category;
+
+      const pill = document.createElement('div');
+      pill.className = 'mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm';
+      pill.innerHTML = `<span class="text-gold">▢</span><span class="text-champagne font-semibold">View</span>`;
+
+      meta.appendChild(title);
+      meta.appendChild(sub);
+      meta.appendChild(pill);
+
+      inner.appendChild(overlay);
+      inner.appendChild(meta);
+      card.appendChild(inner);
 
       card.addEventListener('click', () => {
-        const primarySrc = encodeURI(PHOTO_BASES[0] + sanitizeName(item.file));
-        const fallbackSrc = encodeURI(PHOTO_BASES[1] + sanitizeName(item.file));
-        // Prefer new folder; if it fails, user will see a missing image — that's fine because
-        // the card image already used fallback to load. So we use the card image source:
+        const file = sanitizeFilename(item.file);
         openModal({
-          kind: 'image',
+          type: 'image',
           title: item.title || item.category,
-          src: img.currentSrc || img.src || primarySrc || fallbackSrc,
-          meta: 'category: ' + item.category + ' • call (612) 248-8800 to schedule'
+          src: urlJoin(PHOTO_BASES[0], file),
+          meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
         });
       });
 
       return card;
     }
 
-    function renderFeaturedPhotos() {
+    function renderFeatured() {
       featuredStrip.innerHTML = '';
       FEATURED_FILES.forEach(file => {
         const btn = document.createElement('button');
@@ -809,52 +824,43 @@
         const img = document.createElement('img');
         img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
         img.loading = 'lazy';
-        img.alt = 'featured style';
-        setSrcWithFallback(img, PHOTO_BASES, file);
+        img.alt = 'Featured style';
+        tryLoadImage(img, file);
 
         const cap = document.createElement('div');
         cap.className = 'absolute inset-x-0 bottom-0 p-3';
         cap.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2">
-          <span class="text-gold">▢</span><span class="text-champagne font-semibold text-xs">view</span></div>`;
+          <span class="text-gold">▢</span><span class="text-champagne font-semibold text-xs">View</span></div>`;
 
         btn.appendChild(img);
         btn.appendChild(cap);
 
-        btn.addEventListener('click', () => {
-          openModal({
-            kind: 'image',
-            title: 'featured style',
-            src: img.currentSrc || img.src,
-            meta: 'featured • tap call to schedule'
-          });
-        });
+        btn.addEventListener('click', () => openModal({
+          type: 'image',
+          title: 'Featured Style',
+          src: urlJoin(PHOTO_BASES[0], sanitizeFilename(file)),
+          meta: 'Featured • Tap Call to schedule'
+        }));
 
         featuredStrip.appendChild(btn);
       });
     }
 
-    function renderPhotoGrid() {
+    function renderGrid() {
       mediaGrid.innerHTML = '';
-      const list = (activeCategory === 'all') ? PHOTO_MEDIA : PHOTO_MEDIA.filter(m => m.category === activeCategory);
-      list.forEach(item => mediaGrid.appendChild(buildPhotoCard(item)));
+      let list = (activeCategory === 'All') ? MEDIA : MEDIA.filter(m => m.category === activeCategory);
+      list.forEach(item => mediaGrid.appendChild(buildCard(item)));
     }
 
-    function renderAllPhotos() {
-      renderFilters();
-      renderFeaturedPhotos();
-      renderPhotoGrid();
-    }
-
-    // Hero featured image (photo)
+    // HERO featured image
     const featuredImg = document.getElementById('featuredImg');
-    setSrcWithFallback(featuredImg, PHOTO_BASES, 'braids1.jpg');
-
+    tryLoadImage(featuredImg, 'braids1.jpg');
     document.getElementById('featuredBtn')?.addEventListener('click', () => {
       openModal({
-        kind: 'image',
-        title: 'featured style',
-        src: featuredImg.currentSrc || featuredImg.src,
-        meta: 'call (612) 248-8800 to schedule'
+        type: 'image',
+        title:'Featured Style',
+        src: urlJoin(PHOTO_BASES[0], 'braids1.jpg'),
+        meta:'Call (612) 248-8800 to schedule'
       });
     });
 
@@ -864,109 +870,128 @@
       const img = document.createElement('img');
       img.className = 'absolute inset-0 w-full h-full object-cover opacity-95';
       img.loading = 'lazy';
-      img.alt = 'studio photo';
-      setSrcWithFallback(img, PHOTO_BASES, file);
+      img.alt = 'Studio photo';
+      tryLoadImage(img, file);
       btn.appendChild(img);
 
       btn.addEventListener('click', () => {
         openModal({
-          kind: 'image',
-          title: 'studio photo',
-          src: img.currentSrc || img.src,
-          meta: 'studio preview • call or text to schedule'
+          type: 'image',
+          title: 'Studio Photo',
+          src: urlJoin(PHOTO_BASES[0], sanitizeFilename(file)),
+          meta: 'Studio preview • Call or text to schedule'
         });
       });
     });
 
-    // =========================================================
-    // VIDEOS (AUTO LOAD FROM manifest.json)
-    // =========================================================
-    const videoGrid = document.getElementById('videoGrid');
+    // =============================
+    // VIDEO SECTION (MANIFEST-DRIVEN)
+    // =============================
+    const videoStrip = document.getElementById('videoStrip');
     const videoHint = document.getElementById('videoHint');
 
-    async function loadVideoManifest() {
-      try {
-        const res = await fetch(VIDEO_MANIFEST_URL, { cache: 'no-store' });
-        if (!res.ok) return [];
-        const list = await res.json();
-        return Array.isArray(list) ? list.map(sanitizeName) : [];
-      } catch (e) {
-        return [];
-      }
+    function parseManifest(json) {
+      // Supports:
+      // 1) ["a.mp4","b.mp4"]
+      // 2) { "videos": ["a.mp4","b.mp4"] }
+      // 3) { "videos": [{ "file":"a.mp4", "title":"..." }, ...] }
+      let items = [];
+      if (Array.isArray(json)) items = json;
+      else if (json && Array.isArray(json.videos)) items = json.videos;
+      else if (json && Array.isArray(json.files)) items = json.files;
+
+      // Normalize to objects
+      return items.map((v, idx) => {
+        if (typeof v === 'string') return { file: v, title: `Clip ${idx+1}` };
+        return { file: v.file, title: v.title || `Clip ${idx+1}` };
+      }).filter(v => v.file);
     }
 
-    function buildVideoCard(filename) {
-      const name = sanitizeName(filename);
+    function buildVideoTile(videoObj) {
+      const btn = document.createElement('button');
+      btn.className = 'relative rounded-2xl overflow-hidden border hairline bg-black/25 aspect-[9/12] group shadow-soft hover:shadow-gold transition';
+      btn.type = 'button';
 
-      const card = document.createElement('button');
-      card.className = 'relative text-left rounded-3xl overflow-hidden border hairline bg-black/25 shadow-soft hover:shadow-gold transition group';
-      card.style.minHeight = '280px';
-
-      // A muted preview video tile. (No autoplay; only loads metadata for speed.)
-      const vid = document.createElement('video');
-      vid.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
-      vid.muted = true;
-      vid.playsInline = true;
-      vid.preload = 'metadata';
-
-      // In case of missing file, remove card quietly.
-      vid.onerror = () => { card.remove(); };
-
-      vid.src = encodeURI(VIDEO_BASES[0] + name);
-
+      // We do NOT preload mp4s here (keeps site smooth). Tile is lightweight.
       const overlay = document.createElement('div');
-      overlay.className = 'media-card absolute inset-0';
+      overlay.className = 'absolute inset-0';
 
-      const meta = document.createElement('div');
-      meta.className = 'absolute bottom-0 left-0 right-0 p-4 z-10';
-      meta.innerHTML = `
-        <p class="font-display text-xl text-champagne">video</p>
-        <p class="mt-1 text-sm text-champagne/70">${name}</p>
-        <div class="mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm">
-          <span class="text-gold">▶</span><span class="text-champagne font-semibold">play</span>
-        </div>
-      `;
+      const cap = document.createElement('div');
+      cap.className = 'absolute inset-x-0 bottom-0 p-3 z-10';
 
-      card.appendChild(vid);
-      card.appendChild(overlay);
-      card.appendChild(meta);
+      const pill = document.createElement('div');
+      pill.className = 'play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2 text-sm';
+      pill.innerHTML = `<span class="text-gold">▶</span><span class="text-champagne font-semibold">Play</span>`;
+      cap.appendChild(pill);
 
-      card.addEventListener('click', () => {
+      const title = document.createElement('div');
+      title.className = 'absolute top-0 left-0 right-0 p-3 z-10';
+      title.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2 text-xs">
+        <span class="text-gold">★</span><span class="text-champagne font-semibold">${videoObj.title || 'Clip'}</span>
+      </div>`;
+
+      // Background gradient so tile never looks empty
+      const bg = document.createElement('div');
+      bg.className = 'absolute inset-0 opacity-90';
+      bg.style.background = 'radial-gradient(600px 260px at 50% 20%, rgba(200,161,90,0.12), transparent 55%), radial-gradient(600px 260px at 30% 90%, rgba(181,30,46,0.12), transparent 55%), linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))';
+
+      btn.appendChild(bg);
+      btn.appendChild(overlay);
+      btn.appendChild(title);
+      btn.appendChild(cap);
+
+      btn.addEventListener('click', () => {
+        const { primary, fallback } = buildVideoUrl(videoObj.file);
         openModal({
-          kind: 'video',
-          title: 'clip',
-          src: encodeURI(VIDEO_BASES[0] + name),
-          meta: 'if it does not play, the filename or folder does not match'
+          type: 'video',
+          title: videoObj.title || 'Clip',
+          src: primary,
+          fallbackSrc: fallback,
+          meta: `Playing: ${sanitizeFilename(videoObj.file)} • If it won’t play, re-export as H.264 + AAC.`
         });
       });
 
-      // Subtle hover: attempt a short play preview (best-effort; safe if blocked)
-      card.addEventListener('mouseenter', () => { try { vid.play().catch(()=>{}); } catch(_){} });
-      card.addEventListener('mouseleave', () => { try { vid.pause(); } catch(_){} });
-
-      return card;
+      return btn;
     }
 
-    async function renderVideos() {
-      videoGrid.innerHTML = '';
-      const files = await loadVideoManifest();
+    async function loadVideosFromManifest() {
+      try {
+        const res = await fetch(VIDEO_MANIFEST_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Manifest fetch failed (${res.status})`);
+        const json = await res.json();
+        const list = parseManifest(json);
 
-      if (!files.length) {
-        videoHint.classList.remove('hidden');
+        if (!list.length) throw new Error('Manifest is empty');
+
+        videoStrip.innerHTML = '';
+        list.slice(0, 12).forEach(v => videoStrip.appendChild(buildVideoTile(v))); // show up to 12
+
+        videoHint.classList.add('hidden');
+      } catch (err) {
+        // Fallback: show what you already uploaded so you still see something
+        const fallback = [
+          { file: 'braid_s11.mp4', title: 'Braid S11' },
+          { file: 'braids_s7.mp4', title: 'Braids S7' }
+        ];
+
+        videoStrip.innerHTML = '';
+        fallback.forEach(v => videoStrip.appendChild(buildVideoTile(v)));
+
         videoHint.textContent =
-          'no videos found yet. add mp4s to assets/media/videos/ and list them in assets/media/videos/manifest.json (lowercase, no spaces).';
-        return;
+          `Video manifest issue: ${err.message}. Check /assets/media/videos/manifest.json on Netlify.`;
+        videoHint.classList.remove('hidden');
       }
-
-      videoHint.classList.add('hidden');
-      files.forEach(f => videoGrid.appendChild(buildVideoCard(f)));
     }
 
-    // =========================================================
-    // INIT
-    // =========================================================
-    renderAllPhotos();
-    renderVideos();
+    function renderAll() {
+      renderFilters();
+      renderFeatured();
+      renderGrid();
+    }
+
+    // Initial render
+    renderAll();
+    loadVideosFromManifest();
   </script>
 </body>
 </html>
