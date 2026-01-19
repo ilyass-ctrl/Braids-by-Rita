@@ -186,7 +186,7 @@
         <a href="#tiktok" class="py-2 hover:text-gold">TikTok</a>
         <a href="#contact" class="py-2 hover:text-gold">Contact</a>
         <div class="grid grid-cols-2 gap-2 pt-2">
-          <a href="tel:6122488800" class="text-center px-4 py-3 rounded-xl btn-primary font-semibold">Call</a>
+          <a href="tel:6122488800" class="text-center px-4 py-3 rounded-xl btn-primary font-semiboldsemibold">Call</a>
           <a href="sms:13213186231" class="text-center px-4 py-3 rounded-xl btn-ghost text-gold font-semibold">Text</a>
         </div>
       </div>
@@ -235,7 +235,7 @@
           </div>
         </div>
 
-        <!-- Right: Featured style image (smooth + always works) -->
+        <!-- Right: Featured style image -->
         <div class="relative animate-float">
           <div class="glass rounded-3xl p-4 shadow-glow">
             <div class="flex items-center justify-between pb-3">
@@ -245,8 +245,7 @@
 
             <button id="featuredBtn" class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border hairline bg-black/30 group">
               <img id="featuredImg" class="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition"
-                   alt="Featured braids style"
-                   loading="eager">
+                   alt="Featured braids style" loading="eager">
               <div class="absolute inset-0 grid place-items-center">
                 <div class="play-pill px-4 py-2 rounded-full flex items-center gap-2">
                   <span class="text-gold">▢</span>
@@ -342,9 +341,7 @@
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div>
           <h2 class="font-display text-3xl font-semibold">Gallery</h2>
-          <p class="mt-2 text-champagne/70">
-            Photos + featured clips. Tap to view full-screen.
-          </p>
+          <p class="mt-2 text-champagne/70">Photos + featured clips. Tap to view full-screen.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -438,7 +435,7 @@
     </div>
   </section>
 
-  <!-- TikTok (smooth: load on click) -->
+  <!-- TikTok -->
   <section id="tiktok" class="border-t hairline bg-carbon/40">
     <div class="max-w-7xl mx-auto px-5 py-16">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
@@ -481,9 +478,7 @@
     <div class="grid lg:grid-cols-2 gap-10">
       <div>
         <h2 class="font-display text-3xl font-semibold">Call to Schedule</h2>
-        <p class="mt-3 text-champagne/70">
-          To book, please call or text for availability.
-        </p>
+        <p class="mt-3 text-champagne/70">To book, please call or text for availability.</p>
 
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
           <a href="tel:6122488800" class="glass rounded-3xl p-6 shadow-soft hover:shadow-gold transition">
@@ -573,6 +568,7 @@
 
         <div class="bg-black">
           <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Gallery photo preview" />
+          <!-- playsinline + controls + preload keeps it smooth on mobile -->
           <video id="modalVideo" class="w-full max-h-[75vh] hidden" controls playsinline preload="metadata"></video>
         </div>
 
@@ -582,17 +578,21 @@
   </div>
 
   <script>
-    // =============================
-    // BASE PATHS (ABSOLUTE)
-    // =============================
-    const VIDEO_BASE = '/assets/media/videos/';
-    const VIDEO_MANIFEST_URL = VIDEO_BASE + 'manifest.json';
+    // ==========================================
+    // FIXED + ROBUST BASE PATHS (NETLIFY/GITHUB)
+    // Your repo shows:
+    //   assets/videos/*.mp4
+    //   assets/photos/*.jpg
+    // So the correct public paths are:
+    //   /assets/videos/...
+    //   /assets/photos/...
+    // ==========================================
 
-    // Photos: new folder first, old folder fallback (in case you still have old images)
-    const PHOTO_BASES = [
-      '/assets/media/photos/',
-      '/assets/brand/assets/media/'
-    ];
+    // Try current folder first; keep a legacy fallback so nothing breaks if you move folders later
+    const VIDEO_BASES = ['/assets/videos/', '/assets/media/videos/'];
+    const PHOTO_BASES = ['/assets/photos/', '/assets/media/photos/'];
+
+    const VIDEO_MANIFEST_NAMES = ['manifest.json']; // if you ever rename, add here
 
     function sanitizeFilename(name) {
       return (name || '')
@@ -622,14 +622,19 @@
     }
 
     function buildVideoUrl(file) {
-      // Try exact (encoded) first, then sanitized fallback
+      // Try exact filename first; fallback to sanitized
       const original = (file || '').trim();
       const cleaned = sanitizeFilename(original);
 
-      return {
-        primary: urlJoin(VIDEO_BASE, original),
-        fallback: urlJoin(VIDEO_BASE, cleaned)
-      };
+      // Always prefer the correct repo path first
+      const primary = urlJoin(VIDEO_BASES[0], original);
+      const fallback = urlJoin(VIDEO_BASES[0], cleaned);
+
+      // Keep legacy base as a second-level fallback (rarely needed)
+      const legacyPrimary = urlJoin(VIDEO_BASES[1], original);
+      const legacyFallback = urlJoin(VIDEO_BASES[1], cleaned);
+
+      return { primary, fallback, legacyPrimary, legacyFallback };
     }
 
     // NAV: Mobile menu
@@ -661,7 +666,7 @@
     const modalTitle = document.getElementById('modalTitle');
     const modalMeta = document.getElementById('modalMeta');
 
-    function openModal({ type, title, src, meta, fallbackSrc }) {
+    function openModal({ type, title, src, meta, fallbackSrc, legacySrc, legacyFallbackSrc }) {
       modalTitle.textContent = title || 'Preview';
       modalMeta.textContent = meta || '';
       modal.classList.remove('hidden');
@@ -680,17 +685,30 @@
         modalVideo.src = src;
 
         modalVideo.onerror = () => {
-          // If primary fails (404 or bad filename), try sanitized fallback
+          // 1) Try sanitized filename (same base)
           if (fallbackSrc && modalVideo.src !== fallbackSrc) {
             modalVideo.src = fallbackSrc;
             modalVideo.load();
             return;
           }
-          // If this triggers even with correct URL, it’s likely codec (HEVC/H.265) issue
-          modalMeta.textContent = (meta || '') + ' • Video failed to play: check file URL + H.264 encoding.';
+          // 2) Try legacy base (exact)
+          if (legacySrc && modalVideo.src !== legacySrc) {
+            modalVideo.src = legacySrc;
+            modalVideo.load();
+            return;
+          }
+          // 3) Try legacy base (sanitized)
+          if (legacyFallbackSrc && modalVideo.src !== legacyFallbackSrc) {
+            modalVideo.src = legacyFallbackSrc;
+            modalVideo.load();
+            return;
+          }
+
+          // If all URLs fail but the file exists, this is usually codec (HEVC/H.265)
+          modalMeta.textContent = (meta || '') + ' • Video failed to play. If the URL works but playback fails, re-export as H.264 + AAC (MP4).';
         };
 
-        // Autoplay only after user click (this modal open is a user gesture)
+        // Plays only after user click (opening modal is a user gesture)
         modalVideo.play().catch(()=>{});
       } else {
         modalImg.classList.remove('hidden');
@@ -900,7 +918,6 @@
       else if (json && Array.isArray(json.videos)) items = json.videos;
       else if (json && Array.isArray(json.files)) items = json.files;
 
-      // Normalize to objects
       return items.map((v, idx) => {
         if (typeof v === 'string') return { file: v, title: `Clip ${idx+1}` };
         return { file: v.file, title: v.title || `Clip ${idx+1}` };
@@ -912,63 +929,76 @@
       btn.className = 'relative rounded-2xl overflow-hidden border hairline bg-black/25 aspect-[9/12] group shadow-soft hover:shadow-gold transition';
       btn.type = 'button';
 
-      // We do NOT preload mp4s here (keeps site smooth). Tile is lightweight.
-      const overlay = document.createElement('div');
-      overlay.className = 'absolute inset-0';
-
-      const cap = document.createElement('div');
-      cap.className = 'absolute inset-x-0 bottom-0 p-3 z-10';
-
-      const pill = document.createElement('div');
-      pill.className = 'play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2 text-sm';
-      pill.innerHTML = `<span class="text-gold">▶</span><span class="text-champagne font-semibold">Play</span>`;
-      cap.appendChild(pill);
-
       const title = document.createElement('div');
       title.className = 'absolute top-0 left-0 right-0 p-3 z-10';
       title.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2 text-xs">
         <span class="text-gold">★</span><span class="text-champagne font-semibold">${videoObj.title || 'Clip'}</span>
       </div>`;
 
-      // Background gradient so tile never looks empty
+      const cap = document.createElement('div');
+      cap.className = 'absolute inset-x-0 bottom-0 p-3 z-10';
+      cap.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2 text-sm">
+        <span class="text-gold">▶</span><span class="text-champagne font-semibold">Play</span>
+      </div>`;
+
       const bg = document.createElement('div');
       bg.className = 'absolute inset-0 opacity-90';
       bg.style.background = 'radial-gradient(600px 260px at 50% 20%, rgba(200,161,90,0.12), transparent 55%), radial-gradient(600px 260px at 30% 90%, rgba(181,30,46,0.12), transparent 55%), linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))';
 
       btn.appendChild(bg);
-      btn.appendChild(overlay);
       btn.appendChild(title);
       btn.appendChild(cap);
 
       btn.addEventListener('click', () => {
-        const { primary, fallback } = buildVideoUrl(videoObj.file);
+        const { primary, fallback, legacyPrimary, legacyFallback } = buildVideoUrl(videoObj.file);
         openModal({
           type: 'video',
           title: videoObj.title || 'Clip',
           src: primary,
           fallbackSrc: fallback,
-          meta: `Playing: ${sanitizeFilename(videoObj.file)} • If it won’t play, re-export as H.264 + AAC.`
+          legacySrc: legacyPrimary,
+          legacyFallbackSrc: legacyFallback,
+          meta: `Playing: ${videoObj.file} • If it won’t play but the URL works, re-export as H.264 + AAC (MP4).`
         });
       });
 
       return btn;
     }
 
+    async function fetchManifestAnyBase() {
+      // Try the correct base first: /assets/videos/manifest.json
+      // Then try legacy: /assets/media/videos/manifest.json
+      let lastErr = null;
+
+      for (const base of VIDEO_BASES) {
+        for (const name of VIDEO_MANIFEST_NAMES) {
+          const url = urlJoin(base, name);
+          try {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (!res.ok) throw new Error(`Manifest fetch failed (${res.status}) at ${url}`);
+            const json = await res.json();
+            return { json, url };
+          } catch (e) {
+            lastErr = e;
+          }
+        }
+      }
+      throw lastErr || new Error('Manifest fetch failed.');
+    }
+
     async function loadVideosFromManifest() {
       try {
-        const res = await fetch(VIDEO_MANIFEST_URL, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`Manifest fetch failed (${res.status})`);
-        const json = await res.json();
+        const { json, url } = await fetchManifestAnyBase();
         const list = parseManifest(json);
 
         if (!list.length) throw new Error('Manifest is empty');
 
         videoStrip.innerHTML = '';
-        list.slice(0, 12).forEach(v => videoStrip.appendChild(buildVideoTile(v))); // show up to 12
+        list.slice(0, 12).forEach(v => videoStrip.appendChild(buildVideoTile(v)));
 
         videoHint.classList.add('hidden');
       } catch (err) {
-        // Fallback: show what you already uploaded so you still see something
+        // Hard fallback to your known uploaded filenames (from your repo screenshot)
         const fallback = [
           { file: 'braid_s11.mp4', title: 'Braid S11' },
           { file: 'braids_s7.mp4', title: 'Braids S7' }
@@ -978,7 +1008,7 @@
         fallback.forEach(v => videoStrip.appendChild(buildVideoTile(v)));
 
         videoHint.textContent =
-          `Video manifest issue: ${err.message}. Check /assets/media/videos/manifest.json on Netlify.`;
+          `Video manifest issue: ${err.message}. Confirm you can open /assets/videos/manifest.json on your Netlify site.`;
         videoHint.classList.remove('hidden');
       }
     }
