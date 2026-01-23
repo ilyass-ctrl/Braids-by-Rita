@@ -414,12 +414,12 @@
 
         <div class="mt-4 grid grid-cols-2 gap-3">
           <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding24.jpg">
-            <div class="absolute inset-0 grid place-items-center">
+            <div class="absolute inset-0 grid place-items-center z-10">
               <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
           <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding25.jpg">
-            <div class="absolute inset-0 grid place-items-center">
+            <div class="absolute inset-0 grid place-items-center z-10">
               <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
@@ -561,23 +561,24 @@
 
   <script>
     // =============================
-    // PATHS
+    // PATHS (MATCH YOUR REPO)
     // =============================
     const VIDEO_BASE = '/assets/videos/';
     const VIDEO_MANIFEST_URL = VIDEO_BASE + 'manifest.json';
 
-    // FIX: try /assets/photos/ first (matches your repo folder style), then fallback older path
+    // Your screenshot shows photos under assets/media/photos/
+    // Keep an optional fallback if you ever add assets/photos/
     const PHOTO_BASES = [
-  '/assets/media/photos/',
-  '/assets/photos/'
-];
+      '/assets/media/photos/',
+      '/assets/photos/'
+    ];
 
     // =============================
     // DEBUG HELPERS
     // =============================
     const DEBUG = true;
-    function log(...args) { if (DEBUG) console.log('[RITA]', ...args); }
-    function warn(...args) { if (DEBUG) console.warn('[RITA]', ...args); }
+    const log  = (...args) => { if (DEBUG) console.log('[RITA]', ...args); };
+    const warn = (...args) => { if (DEBUG) console.warn('[RITA]', ...args); };
 
     function sanitizeFilename(name) {
       return (name || '')
@@ -590,6 +591,8 @@
       return encodeURI(base + file);
     }
 
+    // Try loading an image from multiple possible folders.
+    // IMPORTANT: The final successful URL remains in img.src, so modal uses img.currentSrc/img.src.
     function tryLoadImage(imgEl, filename) {
       const file = sanitizeFilename(filename);
       let i = 0;
@@ -601,6 +604,7 @@
         }
         const url = urlJoin(PHOTO_BASES[i], file);
         imgEl.src = url;
+
         imgEl.onerror = () => {
           warn('Image 404/failed:', url);
           imgEl.onerror = null;
@@ -608,6 +612,7 @@
           attempt();
         };
       }
+
       attempt();
     }
 
@@ -666,7 +671,6 @@
 
       if (type === 'video') {
         modalVideo.classList.remove('hidden');
-
         modalSource.src = src;
         modalVideo.load();
         log('Video attempt:', src);
@@ -705,7 +709,7 @@
     modal.addEventListener('click', (e) => { if (e.target === modal.firstElementChild) hideModal(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideModal(); });
 
-    // Media list (photos)
+    // Photos expected by the site (these must exist in assets/media/photos/)
     const MEDIA = [
       ...Array.from({length: 33}, (_, i) => ({
         type: 'image',
@@ -790,20 +794,16 @@
       inner.appendChild(meta);
       card.appendChild(inner);
 
+      // IMPORTANT FIX: use the exact URL that successfully loaded (handles fallback base paths)
       card.addEventListener('click', () => {
+        const resolved = img.currentSrc || img.src;
         openModal({
           type: 'image',
           title: item.title || item.category,
-          card.addEventListener('click', () => {
-  const resolved = img.currentSrc || img.src; // use the working path
-  openModal({
-    type: 'image',
-    title: item.title || item.category,
-    src: resolved,
-    meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
-  });
-});
-
+          src: resolved,
+          meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
+        });
+      });
 
       return card;
     }
@@ -821,28 +821,22 @@
         tryLoadImage(img, file);
 
         const cap = document.createElement('div');
-        cap.className = 'absolute inset-x-0 bottom-0 p-3';
+        cap.className = 'absolute inset-x-0 bottom-0 p-3 z-10';
         cap.innerHTML = `<div class="play-pill px-3 py-1.5 rounded-full inline-flex items-center gap-2">
           <span class="text-gold">▢</span><span class="text-champagne font-semibold text-xs">View</span></div>`;
 
         btn.appendChild(img);
         btn.appendChild(cap);
 
-        btn.addEventListener('click', () => openModal({
-          type: 'image',
-          title: 'Featured Style',
-          card.addEventListener('click', () => {
-  const resolved = img.currentSrc || img.src; // use the working path
-  openModal({
-    type: 'image',
-    title: item.title || item.category,
-    src: resolved,
-    meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
-  });
-});
-
-          meta: 'Featured • Tap Call to schedule'
-        }));
+        btn.addEventListener('click', () => {
+          const resolved = img.currentSrc || img.src;
+          openModal({
+            type: 'image',
+            title: 'Featured Style',
+            src: resolved,
+            meta: 'Featured • Tap Call to schedule'
+          });
+        });
 
         featuredStrip.appendChild(btn);
       });
@@ -857,27 +851,34 @@
     // Hero featured image
     const featuredImg = document.getElementById('featuredImg');
     tryLoadImage(featuredImg, 'braids1.jpg');
+
     document.getElementById('featuredBtn')?.addEventListener('click', () => {
-      openModal({ type: 'image', title:'Featured Style', src: urlJoin(PHOTO_BASES[0], 'braids1.jpg'), meta:'Call (612) 248-8800 to schedule' });
+      const resolved = featuredImg.currentSrc || featuredImg.src;
+      openModal({ type: 'image', title:'Featured Style', src: resolved, meta:'Call (612) 248-8800 to schedule' });
     });
 
-    // Studio photo buttons
+    // Studio photo buttons (preload + modal)
     document.querySelectorAll('.studioPhotoBtn').forEach(btn => {
       const file = btn.getAttribute('data-img');
+
       const img = document.createElement('img');
       img.className = 'absolute inset-0 w-full h-full object-cover opacity-95';
       img.loading = 'lazy';
       img.alt = 'Studio photo';
       tryLoadImage(img, file);
-      btn.appendChild(img);
 
-      btn.addEventListener('click', () => openModal({
-        type: 'image',
-        title: 'Studio Photo',
+      // Put image behind the overlay pill
+      btn.prepend(img);
+
+      btn.addEventListener('click', () => {
         const resolved = img.currentSrc || img.src;
-src: resolved
-        meta: 'Studio preview • Call or text to schedule'
-      }));
+        openModal({
+          type: 'image',
+          title: 'Studio Photo',
+          src: resolved,
+          meta: 'Studio preview • Call or text to schedule'
+        });
+      });
     });
 
     // Videos
