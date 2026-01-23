@@ -794,10 +794,16 @@
         openModal({
           type: 'image',
           title: item.title || item.category,
-          src: urlJoin(PHOTO_BASES[0], sanitizeFilename(item.file)),
-          meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
-        });
-      });
+          card.addEventListener('click', () => {
+  const resolved = img.currentSrc || img.src; // use the working path
+  openModal({
+    type: 'image',
+    title: item.title || item.category,
+    src: resolved,
+    meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
+  });
+});
+
 
       return card;
     }
