@@ -568,9 +568,9 @@
 
     // FIX: try /assets/photos/ first (matches your repo folder style), then fallback older path
     const PHOTO_BASES = [
-      '/assets/photos/',
-      '/assets/media/photos/'
-    ];
+  '/assets/media/photos/',
+  '/assets/photos/'
+];
 
     // =============================
     // DEBUG HELPERS
@@ -831,7 +831,16 @@
         btn.addEventListener('click', () => openModal({
           type: 'image',
           title: 'Featured Style',
-          src: urlJoin(PHOTO_BASES[0], sanitizeFilename(file)),
+          card.addEventListener('click', () => {
+  const resolved = img.currentSrc || img.src; // use the working path
+  openModal({
+    type: 'image',
+    title: item.title || item.category,
+    src: resolved,
+    meta: 'Category: ' + item.category + ' • Call (612) 248-8800 to schedule'
+  });
+});
+
           meta: 'Featured • Tap Call to schedule'
         }));
 
@@ -865,7 +874,8 @@
       btn.addEventListener('click', () => openModal({
         type: 'image',
         title: 'Studio Photo',
-        src: urlJoin(PHOTO_BASES[0], sanitizeFilename(file)),
+        const resolved = img.currentSrc || img.src;
+src: resolved
         meta: 'Studio preview • Call or text to schedule'
       }));
     });
