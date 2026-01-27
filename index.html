@@ -61,7 +61,7 @@
   <style>
     :root { color-scheme: dark; }
     body { background: #0b0b0f; }
-    .glass {
+    .glass{
       background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
       border: 1px solid rgba(200,161,90,0.18);
       backdrop-filter: blur(14px) saturate(140%);
@@ -85,12 +85,11 @@
       background: rgba(255,255,255,0.03);
     }
     .btn-ghost:hover{ background: rgba(200,161,90,0.08); }
-    .badge {
+    .badge{
       border: 1px solid rgba(200,161,90,0.22);
       background: rgba(200,161,90,0.08);
     }
     .sr-only-focusable:focus { position: static; width: auto; height: auto; clip: auto; white-space: normal; }
-
     .media-card::after{
       content:"";
       position:absolute; inset:0;
@@ -102,6 +101,11 @@
       border: 1px solid rgba(200,161,90,0.25);
       background: rgba(0,0,0,0.45);
       backdrop-filter: blur(10px);
+    }
+    /* Byrdie-ish card layout helpers */
+    .style-card{
+      border: 1px solid rgba(200,161,90,0.18);
+      background: rgba(255,255,255,0.02);
     }
   </style>
 
@@ -131,7 +135,7 @@
 </head>
 
 <body class="text-champagne font-sans">
-  <a href="#gallery" class="sr-only sr-only-focusable">Skip to gallery</a>
+  <a href="#styles" class="sr-only sr-only-focusable">Skip to styles</a>
 
   <!-- Top Bar -->
   <div class="hidden sm:block bg-carbon/70 border-b hairline">
@@ -165,6 +169,7 @@
 
       <ul class="hidden lg:flex items-center gap-7 text-sm text-champagne/80">
         <li><a href="#services" class="hover:text-gold transition">Services</a></li>
+        <li><a href="#styles" class="hover:text-gold transition">Styles</a></li>
         <li><a href="#gallery" class="hover:text-gold transition">Gallery</a></li>
         <li><a href="#studio" class="hover:text-gold transition">Studio</a></li>
         <li><a href="#tiktok" class="hover:text-gold transition">TikTok</a></li>
@@ -181,6 +186,7 @@
     <div id="mobileMenu" class="lg:hidden hidden border-t hairline bg-obsidian/85 backdrop-blur">
       <div class="max-w-7xl mx-auto px-5 py-3 flex flex-col gap-2 text-sm">
         <a href="#services" class="py-2 hover:text-gold">Services</a>
+        <a href="#styles" class="py-2 hover:text-gold">Styles</a>
         <a href="#gallery" class="py-2 hover:text-gold">Gallery</a>
         <a href="#studio" class="py-2 hover:text-gold">Studio</a>
         <a href="#tiktok" class="py-2 hover:text-gold">TikTok</a>
@@ -216,7 +222,7 @@
           <div class="mt-7 flex flex-wrap gap-3">
             <a href="tel:6122488800" class="px-5 py-3 rounded-2xl btn-primary font-semibold">Call (612) 248-8800</a>
             <a href="sms:13213186231" class="px-5 py-3 rounded-2xl btn-ghost text-gold font-semibold">Text (321) 318-6231</a>
-            <a href="#gallery" class="px-5 py-3 rounded-2xl btn-ghost font-semibold">See Styles</a>
+            <a href="#styles" class="px-5 py-3 rounded-2xl btn-ghost font-semibold">Browse Styles</a>
           </div>
 
           <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm text-champagne/75">
@@ -240,13 +246,12 @@
           <div class="glass rounded-3xl p-4 shadow-glow">
             <div class="flex items-center justify-between pb-3">
               <p class="font-display text-xl">Featured Style</p>
-              <span class="text-xs text-champagne/60">Photo preview</span>
+              <span class="text-xs text-champagne/60">Tap to view</span>
             </div>
 
             <button id="featuredBtn" class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border hairline bg-black/30 group">
               <img id="featuredImg" class="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition"
-                   alt="Featured braids style"
-                   loading="eager">
+                   alt="Featured braids style" loading="eager">
               <div class="absolute inset-0 grid place-items-center">
                 <div class="play-pill px-4 py-2 rounded-full flex items-center gap-2">
                   <span class="text-gold">▢</span>
@@ -284,43 +289,44 @@
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Braids</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• All braids</li>
-          <li>• Boho braid</li>
-          <li>• Men & women braids</li>
-          <li>• Children braid</li>
+          <li>• Knotless braids</li>
+          <li>• Box braids</li>
+          <li>• Feed-in / stitch</li>
+          <li>• Kids braids</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Twists</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Twist</li>
-          <li>• Nafaqo</li>
-          <li>• Koshe</li>
-          <li>• Sweling</li>
+          <li>• Senegalese twists</li>
+          <li>• Marley twists</li>
+          <li>• Passion twists</li>
+          <li>• Two-strand twists</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
-        <p class="font-display text-xl text-gold">Dreadlocks</p>
+        <p class="font-display text-xl text-gold">Locs</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Dreadlocks</li>
-          <li>• Maintenance / retwist</li>
-          <li>• Styling options</li>
+          <li>• Faux locs</li>
+          <li>• Soft locs</li>
+          <li>• Butterfly locs</li>
+          <li>• Retwist / maintenance</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Extensions</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
           <li>• Waves / human hair</li>
-          <li>• Extensions</li>
+          <li>• Added length</li>
           <li>• Natural blend finish</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
         <p class="font-display text-xl text-gold">Hair Care</p>
         <ul class="mt-3 text-sm text-champagne/75 space-y-2">
-          <li>• Ethiopian butter</li>
           <li>• Scalp-friendly care</li>
           <li>• Protective styling guidance</li>
+          <li>• Clean parts + smooth finish</li>
         </ul>
       </div>
       <div class="glass rounded-3xl p-6 shadow-soft">
@@ -336,8 +342,34 @@
     </div>
   </section>
 
+  <!-- Protective Styles (Byrdie-style) -->
+  <section id="styles" class="border-t hairline bg-carbon/40">
+    <div class="max-w-7xl mx-auto px-5 py-16">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div>
+          <h2 class="font-display text-3xl font-semibold">Protective Styles</h2>
+          <p class="mt-2 text-champagne/70">
+            Browse popular styles. Tap any style to view the photo full screen, then call or text to book.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button id="stylesShowAllBtn" class="px-4 py-2 rounded-xl btn-ghost text-gold font-semibold">Show All</button>
+        </div>
+      </div>
+
+      <div id="stylesFilterRow" class="mt-8 flex flex-wrap gap-2"></div>
+
+      <div id="stylesGrid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+      <p class="mt-6 text-sm text-champagne/60">
+        Naming rule: lowercase + hyphens (example: <span class="text-champagne/80">knotless-braids-01.jpg</span>) in
+        <span class="text-champagne/80">/assets/media/photos/</span>.
+      </p>
+    </div>
+  </section>
+
   <!-- Gallery -->
-  <section id="gallery" class="border-t hairline bg-carbon/40">
+  <section id="gallery" class="border-t hairline">
     <div class="max-w-7xl mx-auto px-5 py-16">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div>
@@ -413,12 +445,12 @@
         </div>
 
         <div class="mt-4 grid grid-cols-2 gap-3">
-          <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding24.jpg">
+          <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="studio-01.jpg">
             <div class="absolute inset-0 grid place-items-center z-10">
               <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
           </button>
-          <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="insidebuilding25.jpg">
+          <button class="studioPhotoBtn relative rounded-2xl overflow-hidden border hairline bg-black/30 aspect-[9/12]" data-img="studio-02.jpg">
             <div class="absolute inset-0 grid place-items-center z-10">
               <div class="play-pill px-3 py-1.5 rounded-full text-sm text-champagne font-semibold">▢ View</div>
             </div>
@@ -522,6 +554,7 @@
       <p class="text-sm text-champagne/60">© <span id="yr"></span> RITA Man & Women Braiding. All rights reserved.</p>
       <div class="flex flex-wrap items-center gap-4 text-sm text-champagne/70">
         <a href="#services" class="hover:text-gold">Services</a>
+        <a href="#styles" class="hover:text-gold">Styles</a>
         <a href="#gallery" class="hover:text-gold">Gallery</a>
         <a href="#contact" class="hover:text-gold">Contact</a>
         <a href="https://www.tiktok.com/@hairbyrita" target="_blank" rel="noopener" class="hover:text-gold">TikTok</a>
@@ -548,7 +581,7 @@
         </div>
 
         <div class="bg-black">
-          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Gallery photo preview" />
+          <img id="modalImg" class="w-full max-h-[75vh] object-contain hidden" alt="Preview image" />
           <video id="modalVideo" class="w-full max-h-[75vh] hidden" controls playsinline preload="metadata">
             <source id="modalSource" src="" type="video/mp4">
           </video>
@@ -566,8 +599,7 @@
     const VIDEO_BASE = '/assets/videos/';
     const VIDEO_MANIFEST_URL = VIDEO_BASE + 'manifest.json';
 
-    // Your screenshot shows photos under assets/media/photos/
-    // Keep an optional fallback if you ever add assets/photos/
+    // Photos live here in your repo
     const PHOTO_BASES = [
       '/assets/media/photos/',
       '/assets/photos/'
@@ -580,19 +612,21 @@
     const log  = (...args) => { if (DEBUG) console.log('[RITA]', ...args); };
     const warn = (...args) => { if (DEBUG) console.warn('[RITA]', ...args); };
 
+    // File naming rule: lowercase + hyphens (we accept underscores/spaces and normalize)
     function sanitizeFilename(name) {
       return (name || '')
         .trim()
         .toLowerCase()
-        .replace(/\s+/g, '_');
+        .replace(/\s+/g, '-')
+        .replace(/_/g, '-');
     }
 
     function urlJoin(base, file) {
       return encodeURI(base + file);
     }
 
-    // Try loading an image from multiple possible folders.
-    // IMPORTANT: The final successful URL remains in img.src, so modal uses img.currentSrc/img.src.
+    // Try loading an image from multiple folders.
+    // The final successful URL remains in img.src, so modal uses img.currentSrc/img.src.
     function tryLoadImage(imgEl, filename) {
       const file = sanitizeFilename(filename);
       let i = 0;
@@ -604,7 +638,6 @@
         }
         const url = urlJoin(PHOTO_BASES[i], file);
         imgEl.src = url;
-
         imgEl.onerror = () => {
           warn('Image 404/failed:', url);
           imgEl.onerror = null;
@@ -612,7 +645,6 @@
           attempt();
         };
       }
-
       attempt();
     }
 
@@ -685,7 +717,6 @@
             log('Video fallback attempt:', fallbackSrc);
             return;
           }
-
           modalMeta.textContent = (meta || '') + ' • Failed URL: ' + current;
         };
 
@@ -709,25 +740,162 @@
     modal.addEventListener('click', (e) => { if (e.target === modal.firstElementChild) hideModal(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hideModal(); });
 
-    // Photos expected by the site (these must exist in assets/media/photos/)
+    // =============================
+    // PROTECTIVE STYLES (Byrdie-style)
+    // =============================
+    const PROTECTIVE_STYLES = [
+      { type:'Braids', name:'Cornrows', file:'cornrows-01.jpg', desc:'Classic scalp braids with endless patterns.' },
+      { type:'Braids', name:'Box Braids', file:'box-braids-01.jpg', desc:'Clean square parts and uniform braids.' },
+      { type:'Braids', name:'Knotless Braids', file:'knotless-braids-01.jpg', desc:'Lightweight install with a seamless root.' },
+      { type:'Braids', name:'Fulani Braids', file:'fulani-braids-01.jpg', desc:'Front cornrows with braids in the back.' },
+      { type:'Braids', name:'Stitch Braids', file:'stitch-braids-01.jpg', desc:'Crisp “stitched” rows for a sharp look.' },
+      { type:'Braids', name:'Goddess Braids', file:'goddess-braids-01.jpg', desc:'Braids with added volume and softness.' },
+      { type:'Braids', name:'Boho Braids', file:'boho-braids-01.jpg', desc:'Loose pieces for a soft, lived-in vibe.' },
+      { type:'Braids', name:'Lemonade Braids', file:'lemonade-braids-01.jpg', desc:'Side-swept feed-in braids.' },
+      { type:'Braids', name:'Feed-In Braids', file:'feed-in-braids-01.jpg', desc:'Natural-looking braids with gradual thickness.' },
+      { type:'Braids', name:'Tribal Braids', file:'tribal-braids-01.jpg', desc:'Bold parts + mixed braid patterns.' },
+      { type:'Braids', name:'Crochet Braids', file:'crochet-braids-01.jpg', desc:'Fast install with versatile looks.' },
+      { type:'Braids', name:'Micro Braids', file:'micro-braids-01.jpg', desc:'Small, detailed braids with movement.' },
+
+      { type:'Twists', name:'Senegalese Twists', file:'senegalese-twists-01.jpg', desc:'Smooth rope twists with a clean finish.' },
+      { type:'Twists', name:'Marley Twists', file:'marley-twists-01.jpg', desc:'Textured twists with a natural look.' },
+      { type:'Twists', name:'Passion Twists', file:'passion-twists-01.jpg', desc:'Soft twists with curl and bounce.' },
+      { type:'Twists', name:'Two-Strand Twists', file:'two-strand-twists-01.jpg', desc:'Simple protective twists that last.' },
+
+      { type:'Locs', name:'Faux Locs', file:'faux-locs-01.jpg', desc:'Loc look without the long-term commitment.' },
+      { type:'Locs', name:'Soft Locs', file:'soft-locs-01.jpg', desc:'Softer texture loc style with movement.' },
+      { type:'Locs', name:'Butterfly Locs', file:'butterfly-locs-01.jpg', desc:'Distressed locs with a boho finish.' },
+
+      { type:'Kids', name:'Kids Braids', file:'kids-braids-01.jpg', desc:'Kid-friendly parts and protective styles.' },
+      { type:'Extensions', name:'Extensions', file:'extensions-01.jpg', desc:'Blends + length options for your look.' },
+      { type:'Studio', name:'Studio', file:'studio-01.jpg', desc:'Clean stations and a luxury vibe.' },
+      { type:'Studio', name:'Studio', file:'studio-02.jpg', desc:'Professional experience from start to finish.' },
+    ];
+
+    // Render Protective Styles
+    const stylesGrid = document.getElementById('stylesGrid');
+    const stylesFilterRow = document.getElementById('stylesFilterRow');
+    const stylesShowAllBtn = document.getElementById('stylesShowAllBtn');
+    let activeStylesType = 'All';
+
+    function makeStylesFilterPill(label) {
+      const btn = document.createElement('button');
+      btn.className = 'px-4 py-2 rounded-xl btn-ghost text-sm font-semibold transition ' + (label === activeStylesType ? 'text-gold' : 'text-champagne/80');
+      btn.textContent = label;
+      btn.addEventListener('click', () => { activeStylesType = label; renderStyles(); renderStylesFilters(); });
+      return btn;
+    }
+
+    function renderStylesFilters() {
+      const types = [...new Set(PROTECTIVE_STYLES.map(s => s.type))].sort();
+      stylesFilterRow.innerHTML = '';
+      stylesFilterRow.appendChild(makeStylesFilterPill('All'));
+      types.forEach(t => stylesFilterRow.appendChild(makeStylesFilterPill(t)));
+      stylesShowAllBtn.onclick = () => { activeStylesType = 'All'; renderStyles(); renderStylesFilters(); };
+    }
+
+    function buildStyleCard(style) {
+      const card = document.createElement('button');
+      card.className = 'style-card relative text-left rounded-3xl overflow-hidden shadow-soft hover:shadow-gold transition group';
+      card.type = 'button';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'relative w-full';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'relative w-full aspect-[16/11] bg-black/25 overflow-hidden';
+
+      const img = document.createElement('img');
+      img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
+      img.alt = style.name;
+      img.loading = 'lazy';
+      tryLoadImage(img, style.file);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'absolute inset-0 media-card';
+
+      const meta = document.createElement('div');
+      meta.className = 'absolute bottom-0 left-0 right-0 p-5 z-10';
+
+      const title = document.createElement('p');
+      title.className = 'font-display text-2xl leading-tight text-champagne';
+      title.textContent = style.name;
+
+      const desc = document.createElement('p');
+      desc.className = 'mt-2 text-sm text-champagne/70';
+      desc.textContent = style.desc || '';
+
+      const tag = document.createElement('div');
+      tag.className = 'mt-3 inline-flex items-center gap-2 play-pill px-3 py-1.5 rounded-full text-sm';
+      tag.innerHTML = `<span class="text-gold">▢</span><span class="text-champagne font-semibold">View</span><span class="text-champagne/50">•</span><span class="text-champagne/80">${style.type}</span>`;
+
+      meta.appendChild(title);
+      meta.appendChild(desc);
+      meta.appendChild(tag);
+
+      imgWrap.appendChild(img);
+      imgWrap.appendChild(overlay);
+      imgWrap.appendChild(meta);
+
+      wrap.appendChild(imgWrap);
+      card.appendChild(wrap);
+
+      card.addEventListener('click', () => {
+        const resolved = img.currentSrc || img.src;
+        openModal({
+          type: 'image',
+          title: style.name,
+          src: resolved,
+          meta: `Style: ${style.type} • Call (612) 248-8800 or Text (321) 318-6231 to schedule`
+        });
+      });
+
+      return card;
+    }
+
+    function renderStyles() {
+      stylesGrid.innerHTML = '';
+      const list = (activeStylesType === 'All')
+        ? PROTECTIVE_STYLES
+        : PROTECTIVE_STYLES.filter(s => s.type === activeStylesType);
+
+      list.forEach(s => stylesGrid.appendChild(buildStyleCard(s)));
+    }
+
+    // =============================
+    // GALLERY (existing system)
+    // =============================
+    // Minimal gallery items so you can add/adjust without breaking.
+    // You can expand this list as you rename/upload more images.
     const MEDIA = [
-      ...Array.from({length: 33}, (_, i) => ({
-        type: 'image',
-        file: `braids${i+1}.jpg`,
-        category: 'Braids',
-        title: 'Braids Style'
-      })),
-      { type:'image', file:'extensions21.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'extensions23.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'extensions28.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'extensions33.jpg', category:'Extensions', title:'Extensions' },
-      { type:'image', file:'insidebuilding24.jpg', category:'Studio', title:'Studio' },
-      { type:'image', file:'insidebuilding25.jpg', category:'Studio', title:'Studio' },
-      { type:'image', file:'kids_braids_s26.jpg', category:'Kids', title:'Kids Braids' },
+      // You can add more images here (same naming scheme)
+      { type:'image', file:'box-braids-01.jpg', category:'Braids', title:'Box Braids' },
+      { type:'image', file:'knotless-braids-01.jpg', category:'Braids', title:'Knotless Braids' },
+      { type:'image', file:'fulani-braids-01.jpg', category:'Braids', title:'Fulani Braids' },
+      { type:'image', file:'stitch-braids-01.jpg', category:'Braids', title:'Stitch Braids' },
+      { type:'image', file:'boho-braids-01.jpg', category:'Braids', title:'Boho Braids' },
+      { type:'image', file:'lemonade-braids-01.jpg', category:'Braids', title:'Lemonade Braids' },
+
+      { type:'image', file:'passion-twists-01.jpg', category:'Twists', title:'Passion Twists' },
+      { type:'image', file:'senegalese-twists-01.jpg', category:'Twists', title:'Senegalese Twists' },
+
+      { type:'image', file:'faux-locs-01.jpg', category:'Locs', title:'Faux Locs' },
+      { type:'image', file:'soft-locs-01.jpg', category:'Locs', title:'Soft Locs' },
+
+      { type:'image', file:'kids-braids-01.jpg', category:'Kids', title:'Kids Braids' },
+      { type:'image', file:'extensions-01.jpg', category:'Extensions', title:'Extensions' },
+
+      { type:'image', file:'studio-01.jpg', category:'Studio', title:'Studio' },
+      { type:'image', file:'studio-02.jpg', category:'Studio', title:'Studio' },
     ];
 
     const FEATURED_FILES = [
-      'braids1.jpg','braids10.jpg','braids11.jpg','braids12.jpg','extensions21.jpg','kids_braids_s26.jpg'
+      'knotless-braids-01.jpg',
+      'box-braids-01.jpg',
+      'fulani-braids-01.jpg',
+      'passion-twists-01.jpg',
+      'soft-locs-01.jpg',
+      'kids-braids-01.jpg'
     ];
 
     const categories = [...new Set(MEDIA.map(m => m.category))].sort((a,b) => a.localeCompare(b));
@@ -735,7 +903,6 @@
     const mediaGrid = document.getElementById('mediaGrid');
     const featuredStrip = document.getElementById('featuredStrip');
     const showAllBtn = document.getElementById('showAllBtn');
-
     let activeCategory = 'All';
 
     function makeFilterPill(label) {
@@ -753,10 +920,11 @@
       showAllBtn.onclick = () => { activeCategory = 'All'; renderAll(); };
     }
 
-    function buildCard(item) {
+    function buildGalleryCard(item) {
       const card = document.createElement('button');
       card.className = 'relative text-left rounded-3xl overflow-hidden border hairline bg-black/25 shadow-soft hover:shadow-gold transition group';
       card.style.minHeight = '280px';
+      card.type = 'button';
 
       const inner = document.createElement('div');
       inner.className = 'relative w-full h-full';
@@ -794,7 +962,6 @@
       inner.appendChild(meta);
       card.appendChild(inner);
 
-      // IMPORTANT FIX: use the exact URL that successfully loaded (handles fallback base paths)
       card.addEventListener('click', () => {
         const resolved = img.currentSrc || img.src;
         openModal({
@@ -813,6 +980,7 @@
       FEATURED_FILES.forEach(file => {
         const btn = document.createElement('button');
         btn.className = 'relative rounded-2xl overflow-hidden border hairline bg-black/25 aspect-[9/12] group';
+        btn.type = 'button';
 
         const img = document.createElement('img');
         img.className = 'absolute inset-0 w-full h-full object-cover opacity-95 group-hover:opacity-100 transition';
@@ -845,13 +1013,12 @@
     function renderGrid() {
       mediaGrid.innerHTML = '';
       const list = (activeCategory === 'All') ? MEDIA : MEDIA.filter(m => m.category === activeCategory);
-      list.forEach(item => mediaGrid.appendChild(buildCard(item)));
+      list.forEach(item => mediaGrid.appendChild(buildGalleryCard(item)));
     }
 
-    // Hero featured image
+    // Hero featured image (use one of the new names)
     const featuredImg = document.getElementById('featuredImg');
-    tryLoadImage(featuredImg, 'braids1.jpg');
-
+    tryLoadImage(featuredImg, 'knotless-braids-01.jpg');
     document.getElementById('featuredBtn')?.addEventListener('click', () => {
       const resolved = featuredImg.currentSrc || featuredImg.src;
       openModal({ type: 'image', title:'Featured Style', src: resolved, meta:'Call (612) 248-8800 to schedule' });
@@ -867,7 +1034,6 @@
       img.alt = 'Studio photo';
       tryLoadImage(img, file);
 
-      // Put image behind the overlay pill
       btn.prepend(img);
 
       btn.addEventListener('click', () => {
@@ -951,8 +1117,8 @@
         warn('Manifest issue:', err.message);
 
         const fallback = [
-          { file: 'braid_s11.mp4', title: 'Braid S11' },
-          { file: 'braids_s7.mp4', title: 'Braids S7' }
+          { file: 'braid_s11.mp4', title: 'Clip 1' },
+          { file: 'braids_s7.mp4', title: 'Clip 2' }
         ];
 
         videoStrip.innerHTML = '';
@@ -970,6 +1136,9 @@
     }
 
     // Initial render
+    renderStylesFilters();
+    renderStyles();
+
     renderAll();
     loadVideosFromManifest();
   </script>
